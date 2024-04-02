@@ -1,0 +1,34 @@
+package com.y.java_board.domain;
+
+import lombok.Getter;
+
+import java.time.LocalDateTime;
+
+@Getter
+public class Article {
+    private Long id;
+    private String title;
+    private String content;
+    private String writer;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public Article(){
+        createdAt = updatedAt = LocalDateTime.now();
+    }
+
+    public Article(String title, String content, String writer) {
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+        this.createdAt = this.updatedAt = LocalDateTime.now();
+    }
+
+    public void patch(Article article){
+        this.title = article.title;
+        this.content = article.content;
+        this.writer = article.writer;
+        this.updatedAt = LocalDateTime.now();
+    }
+
+}
