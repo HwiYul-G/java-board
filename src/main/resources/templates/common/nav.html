@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <body>
-    <nav th:fragment="nav" class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">홈</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/articles">게시판</a>
-                </li>
+    <nav th:fragment="nav" class="navbar navbar-expand-md navbar-light bg-light mb-3 p-1">
+        <a class="navbar-brand m-1" href="#">게시판 프로젝트!</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/">홈</a></li>
+                <li class="nav-item"><a class="nav-link" href="/articles">게시판</a></li>
             </ul>
         </div>
     </nav>
