@@ -2,6 +2,8 @@ package com.y.java_board.service;
 
 import com.y.java_board.domain.Article;
 import com.y.java_board.repository.ArticleRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.Optional;
 
 @Service
 public class ArticleService {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ArticleRepository articleRepository;
 
     public ArticleService(ArticleRepository articleRepository) {
@@ -39,6 +43,7 @@ public class ArticleService {
         Article origin = articleRepository.findById(article.getId())
                 .orElseThrow(()->new NoSuchElementException("The id doesn't exist!"));
         origin.patch(article);
+        logger.debug(origin.toString());
         articleRepository.save(origin);
         return origin.getId();
     }

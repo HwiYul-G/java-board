@@ -26,7 +26,7 @@
 
 
         <a class="btn btn-danger" th:href="@{/articles/delete/{id}(id=${article.id})}">삭제 하기</a>
-        <a class="btn btn-primary" href="#">수정 하기</a>
+        <a class="btn btn-primary" th:href="@{/articles/update/{id}(id=${article.id})}">수정 하기</a>
         <a class="btn btn-primary" href="/articles">뒤로 가기</a>
     </div>
 

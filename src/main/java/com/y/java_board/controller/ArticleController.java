@@ -68,6 +68,27 @@ public class ArticleController {
         return "redirect:/articles";
     }
 
+    @GetMapping("/articles/update/{id}")
+    public String showUpdateForm(@PathVariable long id, Model model){
+        Article article = articleService.findOne(id)
+                .orElseThrow(()-> new IllegalArgumentException("Invalid article Id: "+ id));
+        model.addAttribute("articleDto", new ArticleDto(article.getTitle(),article.getContent(), article.getWriter()));
+        return "/article/update";
+    }
+
+    @PostMapping("/articles/update/{id}")
+    public String updateArticle(@PathVariable("id") long id, ArticleDto articleDto, BindingResult result){
+        if(result.hasErrors()){
+            // TODO : 오류 메시지 등 처리
+            return "/articles/{id}";
+        }
+        Article article = articleDto.toEntity();
+        article.setId(id);
+
+        articleService.updateOne(article);
+        return "redirect:/articles/{id}";
+    }
+
 
 
 

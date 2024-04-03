@@ -1,6 +1,8 @@
 package com.y.java_board.repository;
 
 import com.y.java_board.domain.Article;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -12,13 +14,19 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class MemoryArticleRepository implements ArticleRepository{
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private static final Map<Long, Article> store = new ConcurrentHashMap<>();
     private static long sequence = 0L;
 
     @Override
     public Article save(Article article) {
-        article.setId(++sequence);
-        store.put(article.getId(), article);
+        if(article.getId() == null) {
+            article.setId(++sequence);
+            store.put(article.getId(), article);
+        }else{
+            store.put(article.getId(), article);
+        }
         return article;
     }
 
