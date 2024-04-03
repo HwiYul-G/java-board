@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{/common/head.html::head}"></head>
+<body>
+    <div class="container">
+        <h1 th:text="|${article.id} th article|"></h1>
+            <div>
+                <div>
+                    <h5 class="mb-0 bt-0" th:text="${article.writer}"></h5>
+                </div>
+                <h4 th:text="${article.title}"></h4>
+                <p th:text="${article.content}"></p>
+                <ul class="mb-0 mt-5">
+                    <li>
+                        <h6 class="mb-5">작성일</h6>
+                        <p th:text="${article.createdAt}"></p>
+                    </li>
+                    <li>
+                        <h6 class="mb-5">수정일</h6>
+                        <p th:text="${article.updatedAt}"></p>
+                    </li>
+                </ul>
+            </div>
+
+
+
+
+        <a class="btn btn-danger" href="#">삭제 하기</a>
+        <a class="btn btn-primary" href="#">수정 하기</a>
+        <a class="btn btn-primary" href="/articles">뒤로 가기</a>
+    </div>
+
+    <script src="webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

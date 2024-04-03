@@ -9,9 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller()
 public class ArticleController {
@@ -45,6 +47,18 @@ public class ArticleController {
         articleService.createOne(articleDto.toEntity());
         return "redirect:/articles";
     }
+
+    @GetMapping("/articles/{id}")
+    public String showArticle(@PathVariable("id") long id, Model model){
+        Optional<Article> articleOptional = articleService.findOne(id);
+        if(articleOptional.isPresent()){
+            model.addAttribute("article",articleOptional.get());
+            return "/article/detail";
+        }
+        // TODO : 해당 id 가 없다는 안내가 필요할 것 같다.
+        return "/articles";
+    }
+
 
 
 

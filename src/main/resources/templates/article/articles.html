@@ -23,7 +23,7 @@
                     <td th:text="${article.writer}"></td>
                     <td th:text="${article.createdAt}"></td>
                     <td th:text="${article.updatedAt}"></td>
-                    <td><a href="#" class="btn btn-primary">보기</a></td>
+                    <td><a th:href="@{/articles/{id}(id=${article.id})}" class="btn btn-primary">보기</a></td>
                 </tr>
             </tbody>
         </table>
