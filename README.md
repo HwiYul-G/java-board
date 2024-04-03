@@ -5,4 +5,4 @@
 - [x] 개별 조회하기(retrieve)
 - [x] 목록 조회하기
 - [] 수정하기(update)
-- [] 삭제하기(delete)
+- [x] 삭제하기(delete)

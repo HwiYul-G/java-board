@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Controller()
@@ -57,6 +58,14 @@ public class ArticleController {
         }
         // TODO : 해당 id 가 없다는 안내가 필요할 것 같다.
         return "/articles";
+    }
+
+    @GetMapping("/articles/delete/{id}")
+    public String deleteArticle(@PathVariable("id") long id, Model model){
+        Article article = articleService.findOne(id)
+                .orElseThrow(()-> new IllegalArgumentException("Invalid article Id : " + id));
+        articleService.deleteOne(id);
+        return "redirect:/articles";
     }
 
 
