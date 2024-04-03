@@ -43,7 +43,6 @@ public class ArticleService {
         Article origin = articleRepository.findById(article.getId())
                 .orElseThrow(()->new NoSuchElementException("The id doesn't exist!"));
         origin.patch(article);
-        logger.debug(origin.toString());
         articleRepository.save(origin);
         return origin.getId();
     }
