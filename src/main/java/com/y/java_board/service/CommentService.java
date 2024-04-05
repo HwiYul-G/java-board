@@ -8,6 +8,7 @@ import com.y.java_board.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,5 +38,13 @@ public class CommentService {
 
     public void deleteComment(Long id){
         commentRepository.deleteById(id);
+    }
+
+    public Comment updateComment(Long id, String content) {
+        Comment origin = commentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 comment 입니다."));
+        origin.setUpdatedAt(LocalDateTime.now());
+        origin.setContent(content);
+        return commentRepository.save(origin);
     }
 }

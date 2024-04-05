@@ -31,4 +31,11 @@ public class CommentController {
         return "redirect:/articles/{articleId}";
     }
 
+
+    @PostMapping("/articles/{articleId}/comments/update/{id}")
+    public String update(@PathVariable Long articleId, @PathVariable Long id, String content){
+        commentService.updateComment(id, content);
+        return "redirect:/articles/{articleId}";
+    }
+
 }
