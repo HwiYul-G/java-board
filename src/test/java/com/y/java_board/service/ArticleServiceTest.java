@@ -1,7 +1,7 @@
 package com.y.java_board.service;
 
 import com.y.java_board.domain.Article;
-import com.y.java_board.repository.MemoryArticleRepository;
+import com.y.java_board.repository.impl.MemoryArticleRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
