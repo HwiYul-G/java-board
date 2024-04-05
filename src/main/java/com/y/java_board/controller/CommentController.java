@@ -5,6 +5,7 @@ import com.y.java_board.dto.CommentDto;
 import com.y.java_board.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -21,6 +22,12 @@ public class CommentController {
     public String create(
             @PathVariable Long articleId, CommentDto dto) {
         Comment createdComment = commentService.createOne(dto, articleId);
+        return "redirect:/articles/{articleId}";
+    }
+
+    @GetMapping("/articles/{articleId}/comments/delete/{id}")
+    public String delete(@PathVariable Long id, @PathVariable Long articleId){
+        commentService.deleteComment(id);
         return "redirect:/articles/{articleId}";
     }
 

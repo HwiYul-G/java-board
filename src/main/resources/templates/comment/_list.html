@@ -4,7 +4,7 @@
 <body>
     <div th:fragment="list" class="container">
         <h4>댓글 목록</h4>
-        <table class="table-striped">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>#</th>
@@ -24,7 +24,7 @@
                     <td th:text="${comment.createdAt}"></td>
                     <td th:text="${comment.updatedAt}"></td>
                     <td><a th:href="@{#}" class="btn btn-primary">수정</a></td>
-                    <td><a th:href="@{#}" class="btn btn-danger">삭제</a></td>
+                    <td><a th:href="@{/articles/{articleId}/comments/delete/{id}(articleId=${article.id}, id=${comment.id})}" class="btn btn-danger">삭제</a></td>
                 </tr>
             </tbody>
         </table>

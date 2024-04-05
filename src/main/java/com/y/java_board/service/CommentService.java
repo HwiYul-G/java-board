@@ -31,7 +31,11 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public List<Comment> findCommentsByArticleId(long articleId) {
+    public List<Comment> findCommentsByArticleId(Long articleId) {
         return commentRepository.findByArticleId(articleId);
+    }
+
+    public void deleteComment(Long id){
+        commentRepository.deleteById(id);
     }
 }
