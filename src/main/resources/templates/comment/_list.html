@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head th:insert="~{/common/head.html::head}"></head>
+<body>
+    <div th:fragment="list" class="container">
+        <h4>댓글 목록</h4>
+        <table class="table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>글쓴이</th>
+                    <th>내용</th>
+                    <th>작성 날짜</th>
+                    <th>수정 날짜</th>
+                    <th>수정 버튼</th>
+                    <th>삭제 버튼</th>
+                </tr>
+            </thead>
+            <tbody class="text-body">
+                <tr th:each="comment:${comments}">
+                    <td th:text="${comment.id}"></td>
+                    <td th:text="${comment.writer}"></td>
+                    <td th:text="${comment.content}"></td>
+                    <td th:text="${comment.createdAt}"></td>
+                    <td th:text="${comment.updatedAt}"></td>
+                    <td><a th:href="@{#}" class="btn btn-primary">수정</a></td>
+                    <td><a th:href="@{#}" class="btn btn-danger">삭제</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script src="webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
