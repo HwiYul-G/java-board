@@ -1,13 +1,11 @@
 package com.y.java_board.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,6 +19,8 @@ public class Article {
     private String writer;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "article")
+    private List<Comment> comments;
 
     public Article(){
         createdAt = updatedAt = LocalDateTime.now();

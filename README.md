@@ -8,7 +8,7 @@
 ## 기능 구현 목록
 ### Article
 - [x] id, title, content, createdAt, updatedAt, writer
-  - [] comments
+  - [x] comments
 - [x] 작성하기(Create)
 - [x] 개별 조회하기(retrieve)
 - [x] 목록 조회하기
@@ -16,7 +16,7 @@
 - [x] 삭제하기(delete)
 - [] comments 가져오기
 ### Comment
-- [] id, content, createdAt, updatedAt, article(owner)
+- [x] id, content, createdAt, updatedAt, article(owner)
 - [] 작성하기(create)
 - [] 개별 조회하기(retrieve)
 - [] 삭제하기(delete)
