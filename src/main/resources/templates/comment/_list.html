@@ -1,49 +1,43 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head th:insert="~{/common/head.html::head}"></head>
-<body>
-    <div th:fragment="list" class="container">
-        <h4>댓글 목록</h4>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>글쓴이</th>
-                    <th>내용</th>
-                    <th>작성 날짜</th>
-                    <th>수정 날짜</th>
-                    <th>수정 버튼</th>
-                    <th>삭제 버튼</th>
-                </tr>
-            </thead>
-            <tbody class="text-body">
-                <tr th:each="comment:${comments}">
-                    <td th:text="${comment.id}"></td>
-                    <td th:text="${comment.writer}"></td>
-                    <td>
-                        <span th:id="'commentContentSpan-' + ${comment.id}" th:text="${comment.content}"></span>
-                        <form th:action="@{'/articles/' + ${article.id} + '/comments/update/' + ${comment.id}}" method="post" th:id="'editForm-' + ${comment.id}" style="display: none;">
-                            <input type="text" class="form-control" th:name="'content'" th:value="${comment.content}"/>
-                            <button type="submit" class="btn btn-success">완료</button>
-                        </form>
-                    </td>
-                    <td th:text="${comment.createdAt}"></td>
-                    <td th:text="${comment.updatedAt}"></td>
-                    <td>
-                        <button type="button" class="btn btn-primary"
-                                th:commentId="${comment.id}"
-                                th:onclick="my_edit_comment(this.getAttribute('commentId'))"
-                                th:text="수정"></button>
-                    </td>
-                    <td>
-                        <a th:href="@{/articles/{articleId}/comments/delete/{id}(articleId=${article.id}, id=${comment.id})}"
-                           class="btn btn-danger">삭제</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
 
-    </div>
+<div th:fragment="list" class="container">
+    <h4>댓글 목록</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>글쓴이</th>
+                <th>내용</th>
+                <th>작성 날짜</th>
+                <th>수정 날짜</th>
+                <th>수정 버튼</th>
+                <th>삭제 버튼</th>
+            </tr>
+        </thead>
+        <tbody class="text-body">
+            <tr th:each="comment:${comments}">
+                <td th:text="${comment.id}"></td>
+                <td th:text="${comment.writer}"></td>
+                <td>
+                    <span th:id="'commentContentSpan-' + ${comment.id}" th:text="${comment.content}"></span>
+                    <form th:action="@{'/articles/' + ${article.id} + '/comments/update/' + ${comment.id}}" method="post" th:id="'editForm-' + ${comment.id}" style="display: none;">
+                        <input type="text" class="form-control" th:name="'content'" th:value="${comment.content}"/>
+                        <button type="submit" class="btn btn-success">완료</button>
+                    </form>
+                </td>
+                <td th:text="${comment.createdAt}"></td>
+                <td th:text="${comment.updatedAt}"></td>
+                <td>
+                    <button type="button" class="btn btn-primary"
+                            th:commentId="${comment.id}"
+                            th:onclick="my_edit_comment(this.getAttribute('commentId'))"
+                            th:text="수정"></button>
+                </td>
+                <td>
+                    <a th:href="@{/articles/{articleId}/comments/delete/{id}(articleId=${article.id}, id=${comment.id})}"
+                       class="btn btn-danger">삭제</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-</body>
-</html>
+</div>
