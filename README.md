@@ -20,4 +20,4 @@
 - [x] 작성하기(create)
 - [] 개별 조회하기(retrieve)
 - [x] 삭제하기(delete)
-- [] 수정하기(update)
+- [x] 수정하기(update)
