@@ -1,8 +1,11 @@
 package com.y.java_board.controller;
 
 import com.y.java_board.domain.Article;
+import com.y.java_board.domain.Comment;
 import com.y.java_board.dto.ArticleDto;
+import com.y.java_board.dto.CommentDto;
 import com.y.java_board.service.ArticleService;
+import com.y.java_board.service.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -21,9 +24,11 @@ public class ArticleController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ArticleService articleService;
+    private final CommentService commentService;
 
-    public ArticleController(ArticleService articleService){
+    public ArticleController(ArticleService articleService, CommentService commentService){
         this.articleService = articleService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/articles")
@@ -53,11 +58,14 @@ public class ArticleController {
     public String showArticle(@PathVariable("id") long id, Model model){
         Optional<Article> articleOptional = articleService.findOne(id);
         if(articleOptional.isPresent()){
+            List<Comment> comments = commentService.findCommentsByArticleId(id);
             model.addAttribute("article",articleOptional.get());
+            model.addAttribute("commentDto", new CommentDto("", "", id));
+            model.addAttribute("comments", comments);
             return "/article/detail";
         }
         // TODO : 해당 id 가 없다는 안내가 필요할 것 같다.
-        return "/articles";
+        return "redirect:/articles";
     }
 
     @GetMapping("/articles/delete/{id}")
@@ -88,6 +96,7 @@ public class ArticleController {
         articleService.updateOne(article);
         return "redirect:/articles/{id}";
     }
+
 
 
 

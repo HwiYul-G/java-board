@@ -1,5 +1,6 @@
 package com.y.java_board.domain;
 
+import com.y.java_board.dto.CommentDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -32,6 +33,10 @@ public class Comment {
         this.content = content;
         this.article = article;
         createdAt = updatedAt = LocalDateTime.now();
+    }
+
+    public static Comment createComment(CommentDto commentDto, Article article){
+        return new Comment(commentDto.writer(), commentDto.content(), article);
     }
 
 }
