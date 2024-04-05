@@ -14,10 +14,10 @@
 - [x] 목록 조회하기
 - [x] 수정하기(update)
 - [x] 삭제하기(delete)
-- [] comments 가져오기
+- [x] comments 가져오기
 ### Comment
 - [x] id, content, createdAt, updatedAt, article(owner)
-- [] 작성하기(create)
+- [x] 작성하기(create)
 - [] 개별 조회하기(retrieve)
 - [] 삭제하기(delete)
 - [] 수정하기(update)
