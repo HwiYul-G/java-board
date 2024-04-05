@@ -5,6 +5,7 @@
 - devtools : 재시작 없이 하려고
 - mysql : 데이터베이스
 - lombok : @Getter, @Setter 등 간편하게 하려고
+- mockito-core : unit test를 위해 mock 객체 생성용
 ## 기능 구현 목록
 ### Article
 - [x] id, title, content, createdAt, updatedAt, writer
