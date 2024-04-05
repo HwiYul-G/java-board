@@ -19,5 +19,5 @@
 - [x] id, content, createdAt, updatedAt, article(owner)
 - [x] 작성하기(create)
 - [] 개별 조회하기(retrieve)
-- [] 삭제하기(delete)
+- [x] 삭제하기(delete)
 - [] 수정하기(update)
