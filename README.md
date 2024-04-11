@@ -22,3 +22,9 @@
 - [] 개별 조회하기(retrieve)
 - [x] 삭제하기(delete)
 - [x] 수정하기(update)
+### User
+- [] id, nickname, email, password, name
+- [] 등록하기(register)
+- [] 수정하기(update)
+  - nickname 수정, password수정, email 수정
+- [] 탈퇴하기(delete)
