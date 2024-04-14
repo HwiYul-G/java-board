@@ -11,10 +11,15 @@
 - [x] id, title, content, createdAt, updatedAt, writer
   - [x] comments
 - [x] 작성하기(Create)
+  - [] writer의 값으로 User의 nickname을 넣는다.
 - [x] 개별 조회하기(retrieve)
 - [x] 목록 조회하기
 - [x] 수정하기(update)
+  - [] 작성한 User만 수정이 가능하게 한다.
+  - [] 이를 위해선 사용자 id 를 view에서 보이지 않게 해야할 것 같다.
 - [x] 삭제하기(delete)
+  - [] 작성한 User만 삭제가 가능하게 한다.
+  - [] 이를 위해선 사용자 id 를 view에서 보이지 않게 해야할 것 같다.
 - [x] comments 가져오기
 ### Comment
 - [x] id, content, createdAt, updatedAt, article(owner)
