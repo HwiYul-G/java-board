@@ -23,7 +23,7 @@
 - [x] 삭제하기(delete)
 - [x] 수정하기(update)
 ### User
-- [] id, nickname, email, password, name
+- [x] id, nickname, email, password, name
 - [] 등록하기(register)
 - [] 수정하기(update)
   - nickname 수정, password수정, email 수정
