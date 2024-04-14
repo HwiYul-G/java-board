@@ -24,7 +24,7 @@
 - [x] 수정하기(update)
 ### User
 - [x] id, nickname, email, password, name
-- [] 등록하기(register)
+- [x] 등록하기(register)
 - [] 수정하기(update)
   - nickname 수정, password수정, email 수정
 - [] 탈퇴하기(delete)
