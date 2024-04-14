@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{/common/head.html::head}"></head>
+<body>
+    <div class="contianer">
+        <div>
+            <h1>회원 가입 페이지</h1>
+        </div>
+
+        <form th:action="@{/user/register}" method="post" th:object="${userDto}">
+            <div class="mb-3">
+                <label class="col-form-label col-4" for="email">이메일</label>
+                <input type="email" class="form-c" th:field="*{email}" id="email" required>
+            </div>
+            <div class="mb-3">
+                <label class="col-form-label col-4" for="password">비밀번호</label>
+                <input type="password" class="form-c" th:field="*{password}" id="password" required>
+            </div>
+            <div class="mb-3">
+                <label class="col-form-label col-4" for="name">이름</label>
+                <input type="text" class="form-c" th:field="*{name}" id="name" required>
+            </div>
+            <div class="mb-3">
+                <label class="col-form-label col-4" for="nickname">닉네임</label>
+                <input type="text" class="form-c" th:field="*{nickname}" id="nickname" required>
+            </div>
+            <button type="submit" class="btn btn-primary">제출</button>
+        </form>
+
+        <a class="btn btn-primary" href="/">뒤로 가기</a>
+    </div>
+</body>
+</html>
