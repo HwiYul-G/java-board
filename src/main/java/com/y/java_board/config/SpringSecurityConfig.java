@@ -1,7 +1,7 @@
 package com.y.java_board.config;
 
-import com.y.java_board.service.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.y.java_board.service.CustomUserDetailsService;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -21,14 +21,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SpringSecurityConfig {
 
-    private final UserDetailsServiceImpl userDetailsService;
-
-    @Autowired
-    public SpringSecurityConfig(UserDetailsServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+    private final CustomUserDetailsService userDetailsService;
 
     @Bean
     public InMemoryUserDetailsManager userDetailsManager(){
