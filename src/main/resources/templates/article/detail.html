@@ -3,10 +3,10 @@
 <head th:insert="~{/common/head.html::head}"></head>
 <body>
     <div class="container">
-        <h1 th:text="|${article.id} th article|"></h1>
+        <h1 th:text="|${article.id} 번째  게시글|"></h1>
             <div>
                 <div>
-                    <h5 class="mb-0 bt-0" th:text="${article.writer}"></h5>
+                    작성자 : <span th:text="${article.writer}"></span>
                 </div>
                 <h4 th:text="${article.title}"></h4>
                 <p th:text="${article.content}"></p>
@@ -23,10 +23,10 @@
             </div>
 
 
-
-
         <a class="btn btn-danger" th:href="@{/articles/delete/{id}(id=${article.id})}">삭제 하기</a>
         <a class="btn btn-primary" th:href="@{/articles/update/{id}(id=${article.id})}">수정 하기</a>
+        <span th:if="${auth != null}" th:text="${auth}"></span>
+
         <a class="btn btn-primary" href="/articles">뒤로 가기</a>
     </div>
     <div th:replace="/comment/_comments.html::comments"></div>

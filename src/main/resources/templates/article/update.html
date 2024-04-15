@@ -16,7 +16,7 @@
                     <label for="content">내용</label>
                     <span th:if="${#fields.hasErrors('content')}" th:errors="content"></span>
                 </div>
-
+                <input type="hidden" th:name="writer" th:value="${articleDto.writer()}">
             </div>
             <button type="submit" class="btn btn-primary">수정 완료</button>
         </form>
