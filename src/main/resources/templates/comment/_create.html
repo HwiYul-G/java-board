@@ -1,6 +1,7 @@
 <div th:fragment="create" class="container">
     <h5>새 댓글 작성</h5>
     <form th:action="@{/articles/{id}/comments(id=${article.id})}" th:object="${commentDto}" method="post">
+        <input type="hidden" th:name="email" th:value="${#authentication.principal.username}">
         <div class="mb-3">
             <div class="form-floating">
                 <textarea class="form-control" th:name="content" id="content" placeholder="내용을 작성하세요."></textarea>

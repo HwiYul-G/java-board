@@ -24,7 +24,7 @@
 ### Comment
 - [x] id, content, createdAt, updatedAt, article(owner)
 - [x] 작성하기(create)
-  - [] writer의 값으로 User의 nickname을 넣는다.
+  - [x] writer의 값으로 User의 nickname을 넣는다.
 - [] 개별 조회하기(retrieve)
 - [x] 삭제하기(delete)
   - [] 작성한 사용자만 수정가능하게 한다.
