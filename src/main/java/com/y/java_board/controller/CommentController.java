@@ -23,7 +23,7 @@ public class CommentController {
         return "redirect:/articles/{articleId}";
     }
 
-    @DeleteMapping("/articles/{articleId}/comments/delete/{id}")
+    @DeleteMapping("/articles/{articleId}/comments/{id}")
     public String delete(@PathVariable Long id, @PathVariable Long articleId){
         commentService.deleteComment(id);
         return "redirect:/articles/{articleId}";

@@ -33,7 +33,7 @@
                             th:text="수정"></button>
                 </td>
                 <td>
-                    <form th:action="@{/articles/{articleId}/comments/delete/{id}(articleId=${article.id}, id=${comment.id})}" th:method="delete">
+                    <form th:action="@{/articles/{articleId}/comments/{id}(articleId=${article.id}, id=${comment.id})}" th:method="delete">
                         <button class="btn btn-danger">삭제</button>
                     </form>
                 </td>
