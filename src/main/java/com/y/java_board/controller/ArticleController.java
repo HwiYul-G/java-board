@@ -11,12 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Controller()
@@ -68,7 +65,7 @@ public class ArticleController {
         return "redirect:/articles";
     }
 
-    @GetMapping("/articles/delete/{id}")
+    @DeleteMapping("/articles/{id}")
     public String deleteArticle(@PathVariable("id") long id, Model model){
         Article article = articleService.findOne(id)
                 .orElseThrow(()-> new IllegalArgumentException("Invalid article Id : " + id));
@@ -84,7 +81,7 @@ public class ArticleController {
         return "/article/update";
     }
 
-    @PostMapping("/articles/update/{id}")
+    @PutMapping("/articles/update/{id}")
     public String updateArticle(@PathVariable("id") long id, ArticleDto articleDto, BindingResult result){
         if(result.hasErrors()){
             // TODO : 오류 메시지 등 처리

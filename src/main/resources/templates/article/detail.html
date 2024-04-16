@@ -24,8 +24,9 @@
 
 
 
-
-        <a class="btn btn-danger" th:href="@{/articles/delete/{id}(id=${article.id})}">삭제 하기</a>
+        <form th:action="@{/articles/{id}(id=${article.id})}" th:method="delete">
+            <button class="btn btn-danger">삭제 하기</button>
+        </form>
         <a class="btn btn-primary" th:href="@{/articles/update/{id}(id=${article.id})}">수정 하기</a>
         <a class="btn btn-primary" href="/articles">뒤로 가기</a>
     </div>
