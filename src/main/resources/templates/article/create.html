@@ -4,7 +4,7 @@
 <body>
     <div class="container">
         <h1>게시글 작성하기</h1>
-        <form th:action="@{/articles/new}" th:object="${articleDto}" method="post">
+        <form th:action="@{/articles}" th:object="${articleDto}" method="post">
             <div class="mb-3">
                 <div class="mb-3">
                     <label for="title">제목</label>

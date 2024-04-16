@@ -6,10 +6,8 @@ import com.y.java_board.service.CommentService;
 import com.y.java_board.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 @AllArgsConstructor
@@ -26,14 +24,14 @@ public class CommentController {
         return "redirect:/articles/{articleId}";
     }
 
-    @GetMapping("/articles/{articleId}/comments/delete/{id}")
+    @DeleteMapping("/articles/{articleId}/comments/{id}")
     public String delete(@PathVariable Long id, @PathVariable Long articleId){
         commentService.deleteComment(id);
         return "redirect:/articles/{articleId}";
     }
 
 
-    @PostMapping("/articles/{articleId}/comments/update/{id}")
+    @PutMapping("/articles/{articleId}/comments/{id}")
     public String update(@PathVariable Long articleId, @PathVariable Long id, String content){
         commentService.updateComment(id, content);
         return "redirect:/articles/{articleId}";

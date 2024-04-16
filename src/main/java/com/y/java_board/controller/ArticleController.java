@@ -16,9 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -50,7 +48,7 @@ public class ArticleController {
         return "article/create";
     }
 
-    @PostMapping("/articles/new")
+    @PostMapping("/articles")
     public String create(ArticleDto articleDto, BindingResult result, Model model){
         if(result.hasErrors()){
             // model.addAttribute() 오류의 원인을 보낸다.
@@ -79,7 +77,7 @@ public class ArticleController {
         return "redirect:/articles";
     }
 
-    @GetMapping("/articles/delete/{id}")
+    @DeleteMapping("/articles/{id}")
     public String deleteArticle(@PathVariable("id") long id, Model model, Principal principal, RedirectAttributes redirectAttributes){
         Article article = articleService.findOne(id)
                 .orElseThrow(()-> new IllegalArgumentException("Invalid article Id : " + id));
@@ -105,7 +103,7 @@ public class ArticleController {
         return "/article/update";
     }
 
-    @PostMapping("/articles/update/{id}")
+    @PutMapping("/articles/{id}")
     public String updateArticle(@PathVariable("id") long id, ArticleDto articleDto, BindingResult result){
         if(result.hasErrors()){
             // TODO : 오류 메시지 등 처리
@@ -117,9 +115,5 @@ public class ArticleController {
         articleService.updateOne(article);
         return "redirect:/articles/{id}";
     }
-
-
-
-
 
 }
