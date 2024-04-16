@@ -41,7 +41,7 @@ public class ArticleController {
         return "article/create";
     }
 
-    @PostMapping("/articles/new")
+    @PostMapping("/articles")
     public String create(ArticleDto articleDto, BindingResult result, Model model){
         if(result.hasErrors()){
             // model.addAttribute() 오류의 원인을 보낸다.
