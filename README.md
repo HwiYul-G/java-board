@@ -38,5 +38,15 @@
 - [x] id, nickname, email, password, name
 - [x] 등록하기(register)
 - [] 수정하기(update)
-  - nickname 수정, password수정, email 수정
+  - [] password수정
+  - [] email 수정
+    - 세션에 등록된 email도 변경 되게 해야 한다.
+  - [] 이미지 수정
+  - [] nickname 수정
+    - 닉네임 수정시 현재 사용자가 만든 article과 작성한 comment에 대한 닉네임을 모두 변경
+    - 세션에 등록된 닉네임도 변경
 - [] 탈퇴하기(delete)
+  - [] 탈퇴한 사용자의 comment를 모두 탈퇴한 사용자라고 표기한다.
+  - [] 탈퇴한 사용자의 게시글과 그와 관련된 댓글을 전부 삭제한다.
+- [] 내가 쓴 게시글 목록 보기
+- [] 내가 쓴 댓글 보기
