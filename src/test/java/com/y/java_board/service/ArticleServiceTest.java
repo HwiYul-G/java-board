@@ -15,10 +15,12 @@ class ArticleServiceTest {
     ArticleService articleService;
     MemoryArticleRepository memoryArticleRepository;
 
+
     @BeforeEach
     public void beforeEach(){
+        // 임시적으로..
         memoryArticleRepository = new MemoryArticleRepository();
-        articleService = new ArticleService(memoryArticleRepository);
+        articleService = new ArticleService(memoryArticleRepository, null);
     }
 
     @AfterEach

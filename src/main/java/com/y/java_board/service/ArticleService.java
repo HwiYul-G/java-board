@@ -2,6 +2,9 @@ package com.y.java_board.service;
 
 import com.y.java_board.domain.Article;
 import com.y.java_board.repository.ArticleRepository;
+import com.y.java_board.repository.CommentRepository;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,14 +14,13 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ArticleService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
 
-    public ArticleService(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
 
     public List<Article> findArticles() {
         return articleRepository.findAll();
@@ -34,7 +36,9 @@ public class ArticleService {
         return article.getId();
     }
 
+    @Transactional
     public void deleteOne(Long id){
+        commentRepository.deleteByArticleId(id);
         articleRepository.findById(id)
                 .ifPresent(article-> articleRepository.deleteById(id));
     }
