@@ -24,12 +24,12 @@
 
 
 
-        <form th:action="@{/articles/{id}(id=${article.id})}" th:method="delete">
-            <button class="btn btn-danger">삭제 하기</button>
-        </form>
-        <a class="btn btn-primary" th:href="@{/articles/update/{id}(id=${article.id})}">수정 하기</a>
-        <span th:if="${auth != null}" th:text="${auth}"></span>
-
+        <div th:if="${article.writer} == ${loggedInUser.nickname}">
+            <form th:action="@{/articles/{id}(id=${article.id})}" th:method="delete">
+                <button class="btn btn-danger">삭제 하기</button>
+            </form>
+            <a class="btn btn-primary" th:href="@{/articles/update/{id}(id=${article.id})}">수정 하기</a>
+        </div>
         <a class="btn btn-primary" href="/articles">뒤로 가기</a>
     </div>
     <div th:replace="/comment/_comments.html::comments"></div>

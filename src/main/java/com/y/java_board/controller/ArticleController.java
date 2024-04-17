@@ -3,11 +3,10 @@ package com.y.java_board.controller;
 import com.y.java_board.domain.Article;
 import com.y.java_board.domain.Comment;
 import com.y.java_board.dto.ArticleDto;
-import com.y.java_board.dto.CommentDto;
+import com.y.java_board.dto.UserDto;
 import com.y.java_board.service.ArticleService;
 import com.y.java_board.service.CommentService;
 import com.y.java_board.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,15 +17,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
+@SessionAttributes("loggedInUser")
 public class ArticleController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -59,18 +57,12 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public String showArticle(@PathVariable("id") long id, Model model, Principal principal, HttpServletRequest request){
+    public String showArticle(@PathVariable("id") long id, Model model, @ModelAttribute("loggedInUser")UserDto loggedInUser){
         Optional<Article> articleOptional = articleService.findOne(id);
-        Map<String, ?> inputFlashMap = RequestContextUtils.getInputFlashMap(request);
         if(articleOptional.isPresent()){
             List<Comment> comments = commentService.findCommentsByArticleId(id);
             model.addAttribute("article",articleOptional.get());
-            String nickname = userService.getNicknameByEmail(principal.getName());
-            model.addAttribute("commentDto", new CommentDto(nickname, "", id));
             model.addAttribute("comments", comments);
-            if(inputFlashMap != null){
-                model.addAttribute("auth", inputFlashMap.get("auth"));
-            }
             return "/article/detail";
         }
         // TODO : 해당 id 가 없다는 안내가 필요할 것 같다.

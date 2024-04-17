@@ -26,13 +26,13 @@
                 </td>
                 <td th:text="${comment.createdAt}"></td>
                 <td th:text="${comment.updatedAt}"></td>
-                <td>
+                <td th:if="${comment.writer} == ${loggedInUser.nickname}">
                     <button type="button" class="btn btn-primary"
                             th:commentId="${comment.id}"
                             th:onclick="my_edit_comment(this.getAttribute('commentId'))"
                             th:text="수정"></button>
                 </td>
-                <td>
+                <td th:if="${comment.writer} == ${loggedInUser.nickname}">
                     <form th:action="@{/articles/{articleId}/comments/{id}(articleId=${article.id}, id=${comment.id})}" th:method="delete">
                         <button class="btn btn-danger">삭제</button>
                     </form>
