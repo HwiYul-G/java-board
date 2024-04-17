@@ -10,15 +10,12 @@ import com.y.java_board.service.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +27,6 @@ public class ArticleController {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private final ArticleService articleService;
     private final CommentService commentService;
-    private final UserService userService;
 
     @GetMapping("/articles")
     public String articles(Model model){
@@ -40,9 +36,8 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/new")
-    public String showCreateForm(Model model, @AuthenticationPrincipal UserDetails userDetails){
-        String nickname = userService.getNicknameByEmail(userDetails.getUsername());
-        model.addAttribute("articleDto", new ArticleDto("","", nickname));
+    public String showCreateForm(Model model, @ModelAttribute("loggedInUser")UserDto loggedInUser){
+        model.addAttribute("articleDto", new ArticleDto("","", loggedInUser.nickname()));
         return "article/create";
     }
 
@@ -70,11 +65,10 @@ public class ArticleController {
     }
 
     @DeleteMapping("/articles/{id}")
-    public String deleteArticle(@PathVariable("id") long id, Model model, Principal principal, RedirectAttributes redirectAttributes){
+    public String deleteArticle(@PathVariable("id") long id, Model model, @ModelAttribute("loggedInUser")UserDto loggedInUser, RedirectAttributes redirectAttributes){
         Article article = articleService.findOne(id)
                 .orElseThrow(()-> new IllegalArgumentException("Invalid article Id : " + id));
-        String email = userService.getEmailByNickname(article.getWriter());
-        if(!principal.getName().equals(email)){
+        if(!loggedInUser.nickname().equals(article.getWriter())){
             redirectAttributes.addFlashAttribute("auth", "삭제 권한이 없습니다.");
             return "redirect:/articles/{id}";
         }
@@ -83,11 +77,10 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/update/{id}")
-    public String showUpdateForm(@PathVariable long id, Model model, Principal principal, RedirectAttributes redirectAttributes){
+    public String showUpdateForm(@PathVariable long id, Model model, @ModelAttribute("loggedInUser")UserDto loggedInUser, RedirectAttributes redirectAttributes){
         Article article = articleService.findOne(id)
                 .orElseThrow(()-> new IllegalArgumentException("Invalid article Id: "+ id));
-        String email = userService.getEmailByNickname(article.getWriter());
-        if(!principal.getName().equals(email)){
+        if(!loggedInUser.nickname().equals(article.getWriter())){
             redirectAttributes.addFlashAttribute("auth", "수정 권한이 없습니다.");
             return "redirect:/articles/{id}";
         }

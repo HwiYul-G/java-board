@@ -33,11 +33,6 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("[존재하지 않는 이메일] 해당 이메일의 사용자를 찾을 수 없습니다."));
     }
 
-    public String getEmailByNickname(String nickname){
-        Optional<User> userOptional = userRepository.findByNickname(nickname);
-        return userOptional.map(User::getEmail)
-                .orElseThrow(() -> new IllegalArgumentException("[존재 하지 않는 닉네임] 해당 닉넥임을 가진 사용자를 찾을 수 없습니다."));
-    }
 
 //    public User updateUser(){
 //
