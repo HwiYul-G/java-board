@@ -2,16 +2,17 @@ package com.y.java_board.config;
 
 import com.y.java_board.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +26,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SpringSecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Bean
     public InMemoryUserDetailsManager userDetailsManager(){
@@ -50,8 +55,10 @@ public class SpringSecurityConfig {
                                     "/webjars/**", "/css/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
             )
-            .formLogin(Customizer.withDefaults())
-            .logout(LogoutConfigurer::permitAll);
+            .formLogin(login ->
+                    login.successHandler(customAuthenticationSuccessHandler))
+            .logout(logout ->
+                    logout.logoutSuccessHandler(customLogoutSuccessHandler).permitAll());
         return http.build();
     }
 
@@ -61,10 +68,10 @@ public class SpringSecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationManager authenticationManager(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
-        return provider;
+        return new ProviderManager(provider);
     }
 }
