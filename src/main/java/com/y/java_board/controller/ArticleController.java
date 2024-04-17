@@ -6,7 +6,6 @@ import com.y.java_board.dto.ArticleDto;
 import com.y.java_board.dto.UserDto;
 import com.y.java_board.service.ArticleService;
 import com.y.java_board.service.CommentService;
-import com.y.java_board.service.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +44,7 @@ public class ArticleController {
     public String create(ArticleDto articleDto, BindingResult result, Model model){
         if(result.hasErrors()){
             // model.addAttribute() 오류의 원인을 보낸다.
-            return "/articles/new";
+            return "redirect:/articles/new";
         }
         articleService.createOne(articleDto.toEntity());
         return "redirect:/articles";
@@ -92,7 +91,7 @@ public class ArticleController {
     public String updateArticle(@PathVariable("id") long id, ArticleDto articleDto, BindingResult result){
         if(result.hasErrors()){
             // TODO : 오류 메시지 등 처리
-            return "/articles/{id}";
+            return "redirect:/articles/{id}";
         }
         Article article = articleDto.toEntity();
         article.setId(id);

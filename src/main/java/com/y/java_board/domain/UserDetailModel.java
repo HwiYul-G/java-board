@@ -26,10 +26,6 @@ public class UserDetailModel implements UserDetails {
         return null;
     }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
-
     public String getNickname() {
         return nickname;
     }

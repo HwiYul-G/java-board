@@ -1,10 +1,8 @@
 package com.y.java_board.controller;
 
-import com.y.java_board.domain.Comment;
 import com.y.java_board.dto.CommentDto;
 import com.y.java_board.dto.UserDto;
 import com.y.java_board.service.CommentService;
-import com.y.java_board.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +18,7 @@ public class CommentController {
     @PostMapping("/articles/{articleId}/comments")
     public String create(@PathVariable Long articleId, @ModelAttribute("loggedInUser")UserDto loggedInUser, CommentDto dto) {
         CommentDto commentDto = new CommentDto(loggedInUser.nickname(), dto.content(), articleId);
-        Comment createdComment = commentService.createOne(commentDto, articleId);
+        commentService.createOne(commentDto, articleId);
         return "redirect:/articles/{articleId}";
     }
 
