@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{/common/head.html::head}"></head>
+<body>
+<nav th:replace="~{common/nav.html::nav}"></nav>
+<div class="container mb-3">
+    <div class="">
+        <img th:src="@{'data:image/jpeg;base64,'+${profileImage}}" alt="사용자 이미지" th:width="200" th:height="200">
+        <dl class="mb-3">
+            <dt class=""> 이름 : <span th:text="${userInfo.name}"/> </dt>
+            <dt class=""> 이메일 : <span th:text="${#authentication.name}"/> </dt>
+            <dt class=""> 닉네임 : <span th:text="${userInfo.nickname}"/> </dt>
+        </dl>
+    </div>
+
+    <div class="container mb-3">
+        <a class="btn btn-primary mb-3" th:href="@{/user/profile}"> 프로필 수정 </a>
+        <a class="btn btn-primary mb-3" th:href="@{#}"> 비밀번호 변경(아직X) </a>
+        <a class="btn btn-primary mb-3" th:href="@{#}"> 내 게시글 조회(아직X) </a>
+        <a class="btn btn-primary mb-3" th:href="@{#}"> 내 댓글 조회(아직X) </a>
+        <form class="mb-3" th:action="@{#}" th:method="delete">
+            <button type="submit" class="btn btn-danger">탈퇴 하기(아직X)</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
