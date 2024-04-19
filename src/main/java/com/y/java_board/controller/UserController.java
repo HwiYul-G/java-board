@@ -5,6 +5,7 @@ import com.y.java_board.domain.User;
 import com.y.java_board.dto.UserDto;
 import com.y.java_board.service.ImageService;
 import com.y.java_board.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +22,12 @@ import java.util.Base64;
 @RequiredArgsConstructor
 @SessionAttributes("userInfo")
 public class UserController {
+    private final String PROFILE_IMG_DIRECTORY = "src/main/resources/static/images/profile";
 
     private final UserService userService;
     private final ImageService imageService;
     private final PasswordEncoder passwordEncoder;
+    private final HttpSession session;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -49,9 +52,8 @@ public class UserController {
 
     @GetMapping("/user/info")
     public String showUserInfo(ModelMap model, @ModelAttribute("userInfo") UserInfoSession userInfoSession) {
-        String downloadDirectory = "src/main/resources/static/images/profile";
         try {
-            byte[] profileImageBytes = imageService.getImage(downloadDirectory, userInfoSession.getProfileImage()); // Unhandled exception : java.io.IOException
+            byte[] profileImageBytes = imageService.getImage(PROFILE_IMG_DIRECTORY, userInfoSession.getProfileImage()); // Unhandled exception : java.io.IOException
             String profileImageBase64 = Base64.getEncoder().encodeToString(profileImageBytes);
             model.put("profileImage", profileImageBase64);
         } catch (IOException e) {
@@ -77,12 +79,11 @@ public class UserController {
                     .email(userInfoSession.getEmail())
                     .build());
         } else{
-            String uploadDirectory = "src/main/resources/static/images/profile";
             String previousProfileImagePath = userInfoSession.getProfileImage();
             if(!previousProfileImagePath.isEmpty() && !previousProfileImagePath.equals("default_profile.png")){
-                imageService.deleteImage(uploadDirectory, previousProfileImagePath);
+                imageService.deleteImage(PROFILE_IMG_DIRECTORY, previousProfileImagePath);
             }
-            String profileImageString = imageService.saveImageToStorage(uploadDirectory, profileImage);
+            String profileImageString = imageService.saveImageToStorage(PROFILE_IMG_DIRECTORY, profileImage);
 
             userService.updateUserProfile(User.builder()
                     .profileImage(profileImageString)
@@ -98,4 +99,13 @@ public class UserController {
     }
 
 
+    @DeleteMapping("/user/{email}")
+    public String deleteUser(@PathVariable("email") String email, @ModelAttribute("userInfo") UserInfoSession userInfoSession) throws IOException {
+        String profileImg = userInfoSession.getProfileImage();
+        userService.deleteUser(email);
+        if(!profileImg.equals("default_profile.png"))
+            imageService.deleteImage(PROFILE_IMG_DIRECTORY, profileImg);
+        session.invalidate();
+        return "redirect:/";
+    }
 }

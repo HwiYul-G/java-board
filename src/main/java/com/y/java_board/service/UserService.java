@@ -5,6 +5,7 @@ import com.y.java_board.domain.User;
 import com.y.java_board.repository.ArticleRepository;
 import com.y.java_board.repository.CommentRepository;
 import com.y.java_board.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -73,9 +74,21 @@ public class UserService {
                 .map(User::getName).orElseThrow(() -> new IllegalArgumentException("[존재하지 않는 이메일] 해당 이메일의 사용자를 찾을 수 없습니다."));
     }
 
-//    public void deleteUser(Long id){
-//
-//    }
+    @Transactional
+    public void deleteUser(String email){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("[존재하지 않는 이메일] 해당 이메일의 사용자가 없어서 삭제할 수 없습니다."));
+        commentRepository.findAll().stream()
+                .filter(comment -> comment.getWriter().equals(user.getNickname()))
+                .forEach(comment -> commentRepository.deleteById(comment.getId()));
+        articleRepository.findAll().stream()
+                .filter(article -> article.getWriter().equals(user.getNickname()))
+                .forEach(article -> {
+                    commentRepository.deleteByArticleId(article.getId());
+                    articleRepository.deleteById(article.getId());
+                });
+        userRepository.deleteById(user.getId());
+    }
 
 
 }
