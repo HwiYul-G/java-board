@@ -20,6 +20,7 @@
     - [x] 이를 위해 nicknme 기반으로 email 찾기 기능 추가
 - [x] 삭제하기(delete)
   - [x] 작성한 User만 삭제가 가능하게 한다.
+  - [x] 관련된 comment를 먼저 지우고 현재 게시글이 지워지게 한다.
 - [x] comments 가져오기
 ### Comment
 - [x] id, content, createdAt, updatedAt, article(owner)
@@ -41,8 +42,8 @@
   - [] password수정
   - [] email 수정
     - 세션에 등록된 email도 변경 되게 해야 한다.
-  - [] 이미지 수정
-  - [] nickname 수정
+  - [x] 이미지 수정
+  - [x] nickname 수정
     - 닉네임 수정시 현재 사용자가 만든 article과 작성한 comment에 대한 닉네임을 모두 변경
     - 세션에 등록된 닉네임도 변경
 - [] 탈퇴하기(delete)
