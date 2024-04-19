@@ -1,6 +1,5 @@
 package com.y.java_board.config;
 
-import com.y.java_board.dto.UserDto;
 import com.y.java_board.service.UserService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +26,15 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (session != null) {
             String email = authentication.getName();
             String nickname = userService.getNicknameByEmail(email);
-            session.setAttribute("loggedInUser", new UserDto(email, "", "", nickname));
+            String name = userService.getNameByEmail(email);
+            String profileImg = userService.getProfileImageURIByEmail(email);
+            session.setAttribute("userInfo", UserInfoSession.builder()
+                    .nickname(nickname)
+                    .email(email)
+                    .name(name)
+                    .profileImage(profileImg)
+                    .build()
+            );
         }
         response.sendRedirect("/");
     }

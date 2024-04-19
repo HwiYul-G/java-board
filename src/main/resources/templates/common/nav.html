@@ -8,14 +8,10 @@
             <li class="nav-item"><a class="nav-link" href="/articles">게시판</a></li>
         </ul>
         <ul class="navbar-nav m-lg-auto">
-            <div sec:authorize="!isAuthenticated()">
-                <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
-                <li class="nav-item"><a class="nav-link" href="/user/register">회원가입</a></li>
-            </div>
-            <div sec:authorize="isAuthenticated()">
-                <li class="nav-item"><a class="nav-link" href="#">개인 정보</a></li>
-                <li class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
-            </div>
+            <li sec:authorize="!isAuthenticated()" class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
+            <li sec:authorize="!isAuthenticated()" class="nav-item"><a class="nav-link" href="/user/register">회원가입</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-item"><a class="nav-link" href="/user/info">개인 정보</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-item"><a class="nav-link" href="/logout">로그아웃</a></li>
         </ul>
     </div>
 </nav>

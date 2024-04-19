@@ -24,7 +24,7 @@
 
 
 
-        <div th:if="${article.writer} == ${loggedInUser.nickname}">
+        <div th:if="${article.writer} == ${userInfo.nickname}">
             <form th:action="@{/articles/{id}(id=${article.id})}" th:method="delete">
                 <button class="btn btn-danger">삭제 하기</button>
             </form>

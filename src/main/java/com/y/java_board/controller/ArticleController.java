@@ -1,9 +1,9 @@
 package com.y.java_board.controller;
 
+import com.y.java_board.config.UserInfoSession;
 import com.y.java_board.domain.Article;
 import com.y.java_board.domain.Comment;
 import com.y.java_board.dto.ArticleDto;
-import com.y.java_board.dto.UserDto;
 import com.y.java_board.service.ArticleService;
 import com.y.java_board.service.CommentService;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
-@SessionAttributes("loggedInUser")
+@SessionAttributes("userInfo")
 public class ArticleController {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -35,8 +35,8 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/new")
-    public String showCreateForm(Model model, @ModelAttribute("loggedInUser")UserDto loggedInUser){
-        model.addAttribute("articleDto", new ArticleDto("","", loggedInUser.nickname()));
+    public String showCreateForm(Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession){
+        model.addAttribute("articleDto", new ArticleDto("","", userInfoSession.getNickname()));
         return "article/create";
     }
 
@@ -51,7 +51,7 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public String showArticle(@PathVariable("id") long id, Model model, @ModelAttribute("loggedInUser")UserDto loggedInUser){
+    public String showArticle(@PathVariable("id") long id, Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession){
         Optional<Article> articleOptional = articleService.findOne(id);
         if(articleOptional.isPresent()){
             List<Comment> comments = commentService.findCommentsByArticleId(id);
@@ -64,10 +64,10 @@ public class ArticleController {
     }
 
     @DeleteMapping("/articles/{id}")
-    public String deleteArticle(@PathVariable("id") long id, Model model, @ModelAttribute("loggedInUser")UserDto loggedInUser, RedirectAttributes redirectAttributes){
+    public String deleteArticle(@PathVariable("id") long id, Model model, @ModelAttribute("userInfo")UserInfoSession userInfoSession, RedirectAttributes redirectAttributes){
         Article article = articleService.findOne(id)
                 .orElseThrow(()-> new IllegalArgumentException("Invalid article Id : " + id));
-        if(!loggedInUser.nickname().equals(article.getWriter())){
+        if(!userInfoSession.getNickname().equals(article.getWriter())){
             redirectAttributes.addFlashAttribute("auth", "삭제 권한이 없습니다.");
             return "redirect:/articles/{id}";
         }
@@ -76,10 +76,10 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/update/{id}")
-    public String showUpdateForm(@PathVariable long id, Model model, @ModelAttribute("loggedInUser")UserDto loggedInUser, RedirectAttributes redirectAttributes){
+    public String showUpdateForm(@PathVariable long id, Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession, RedirectAttributes redirectAttributes){
         Article article = articleService.findOne(id)
                 .orElseThrow(()-> new IllegalArgumentException("Invalid article Id: "+ id));
-        if(!loggedInUser.nickname().equals(article.getWriter())){
+        if(!userInfoSession.getNickname().equals(article.getWriter())){
             redirectAttributes.addFlashAttribute("auth", "수정 권한이 없습니다.");
             return "redirect:/articles/{id}";
         }

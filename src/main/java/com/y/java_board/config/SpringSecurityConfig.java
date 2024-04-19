@@ -32,7 +32,7 @@ public class SpringSecurityConfig {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager(){
+    public InMemoryUserDetailsManager userDetailsManager() {
         UserDetails admin = User.withUsername("admin")
                 .password(passwordEncoder().encode("1234"))
                 .roles("ADMIN")
@@ -47,28 +47,30 @@ public class SpringSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-            .httpBasic(HttpBasicConfigurer::disable)
-            .authorizeHttpRequests(auth ->
-                    auth.requestMatchers("/", "/user/register",
-                                    "/webjars/**", "/css/**", "/js/**").permitAll()
-                        .anyRequest().authenticated()
-            )
-            .formLogin(login ->
-                    login.successHandler(customAuthenticationSuccessHandler))
-            .logout(logout ->
-                    logout.logoutSuccessHandler(customLogoutSuccessHandler).permitAll());
+                .httpBasic(HttpBasicConfigurer::disable)
+                .authorizeHttpRequests(auth ->
+                        auth.requestMatchers("/", "/user/register",
+                                        "/webjars/**", "/css/**", "/js/**").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .formLogin(login ->
+                        login.successHandler(customAuthenticationSuccessHandler))
+                .logout(logout ->
+                        logout.logoutSuccessHandler(customLogoutSuccessHandler)
+                                .permitAll()
+                );
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(){
+    public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
