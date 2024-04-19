@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemoryArticleRepository implements ArticleRepository {
@@ -34,6 +35,13 @@ public class MemoryArticleRepository implements ArticleRepository {
     @Override
     public Optional<Article> findById(Long id) {
         return Optional.ofNullable(store.get(id));
+    }
+
+    @Override
+    public List<Article> findByWriter(String writer) {
+        return store.values().stream()
+                .filter(article -> article.getWriter().equals(writer))
+                .collect(Collectors.toList());
     }
 
     @Override
