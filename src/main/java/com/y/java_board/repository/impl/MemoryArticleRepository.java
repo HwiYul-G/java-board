@@ -23,10 +23,10 @@ public class MemoryArticleRepository implements ArticleRepository {
 
     @Override
     public Article save(Article article) {
-        if(article.getId() == null) {
+        if (article.getId() == null) {
             article.setId(++sequence);
             store.put(article.getId(), article);
-        }else{
+        } else {
             store.put(article.getId(), article);
         }
         return article;
@@ -54,7 +54,7 @@ public class MemoryArticleRepository implements ArticleRepository {
         store.remove(id);
     }
 
-    public void clearStore(){
+    public void clearStore() {
         store.clear();
     }
 

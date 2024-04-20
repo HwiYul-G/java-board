@@ -8,8 +8,12 @@ import java.util.Optional;
 public interface ArticleRepository {
 
     Article save(Article article);
+
     Optional<Article> findById(Long id);
+
     List<Article> findByWriter(String writer);
+
     List<Article> findAll();
+
     void deleteById(Long id);
 }

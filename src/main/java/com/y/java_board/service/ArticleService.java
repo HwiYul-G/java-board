@@ -30,28 +30,26 @@ public class ArticleService {
         return articleRepository.findById(id);
     }
 
-    public Long createOne(Article article){
+    public Long createOne(Article article) {
         // 중복 검사, null 검사 등 수행
         articleRepository.save(article);
         return article.getId();
     }
 
     @Transactional
-    public void deleteOne(Long id){
+    public void deleteOne(Long id) {
         commentRepository.deleteByArticleId(id);
         articleRepository.findById(id)
-                .ifPresent(article-> articleRepository.deleteById(id));
+                .ifPresent(article -> articleRepository.deleteById(id));
     }
 
-    public Long updateOne(Article article){
+    public Long updateOne(Article article) {
         Article origin = articleRepository.findById(article.getId())
-                .orElseThrow(()->new NoSuchElementException("The id doesn't exist!"));
+                .orElseThrow(() -> new NoSuchElementException("The id doesn't exist!"));
         origin.patch(article);
         articleRepository.save(origin);
         return origin.getId();
     }
-
-
 
 
 }

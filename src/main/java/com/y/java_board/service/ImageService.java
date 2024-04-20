@@ -27,14 +27,14 @@ public class ImageService {
         return uniqueFileName;
     }
 
-    public byte[] getImage(String imageDirectory, String imageName) throws IOException{
+    public byte[] getImage(String imageDirectory, String imageName) throws IOException {
         Path imagePath = Path.of(imageDirectory, imageName);
         return Files.readAllBytes(imagePath);
     }
 
-    public String deleteImage(String imageDirectory, String imageName) throws IOException{
+    public String deleteImage(String imageDirectory, String imageName) throws IOException {
         Path imagePath = Path.of(imageDirectory, imageName);
-        if(Files.exists(imagePath)){
+        if (Files.exists(imagePath)) {
             Files.delete(imagePath);
             return "Success";
         }

@@ -2,7 +2,6 @@ package com.y.java_board.controller;
 
 import com.y.java_board.config.UserInfoSession;
 import com.y.java_board.dto.CommentDto;
-import com.y.java_board.dto.UserDto;
 import com.y.java_board.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;

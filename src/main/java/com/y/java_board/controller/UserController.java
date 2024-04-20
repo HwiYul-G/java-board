@@ -134,7 +134,7 @@ public class UserController {
     }
 
     @DeleteMapping("/comments/{commentId}")
-    public String deleteCommentById(@PathVariable Long commentId){
+    public String deleteCommentById(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
         return "redirect:/user/info";
     }

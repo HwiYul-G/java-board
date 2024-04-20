@@ -8,11 +8,17 @@ import java.util.Optional;
 public interface CommentRepository {
 
     Comment save(Comment comment);
+
     Optional<Comment> findById(Long id);
+
     List<Comment> findByArticleId(Long articleId);
+
     List<Comment> findByWriter(String writer);
+
     List<Comment> findAll();
+
     void deleteById(Long id);
+
     void deleteByArticleId(Long articleId);
 
 }

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Primary
-public interface SpringDataJpaArticleRepository extends JpaRepository<Article,Long>, ArticleRepository {
+public interface SpringDataJpaArticleRepository extends JpaRepository<Article, Long>, ArticleRepository {
 
 }

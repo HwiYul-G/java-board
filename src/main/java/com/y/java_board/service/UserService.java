@@ -39,21 +39,21 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("[존재하지 않는 이메일] 해당 이메일의 사용자를 찾을 수 없습니다."));
     }
 
-    public User updateUserProfile(User user){
+    public User updateUserProfile(User user) {
         Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             String existingNickname = userOptional.get().getNickname();
 
             userOptional.get().setNickname(user.getNickname());
-            if(user.getProfileImage() != null) {
+            if (user.getProfileImage() != null) {
                 userOptional.get().setProfileImage(user.getProfileImage());
             }
 
-            if(!existingNickname.equals(user.getNickname())) {
+            if (!existingNickname.equals(user.getNickname())) {
                 articleRepository.findByWriter(existingNickname)
-                                .forEach(article -> article.setWriter(user.getNickname()));
+                        .forEach(article -> article.setWriter(user.getNickname()));
                 commentRepository.findByWriter(existingNickname)
-                                .forEach(comment -> comment.setWriter(user.getNickname()));
+                        .forEach(comment -> comment.setWriter(user.getNickname()));
             }
             return userRepository.save(userOptional.get());
         }
@@ -73,11 +73,11 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(String email){
+    public void deleteUser(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("[존재하지 않는 이메일] 해당 이메일의 사용자가 없어서 삭제할 수 없습니다."));
         commentRepository.findByWriter(user.getNickname())
-                        .forEach(comment -> commentRepository.deleteById(comment.getId()));
+                .forEach(comment -> commentRepository.deleteById(comment.getId()));
         articleRepository.findByWriter(user.getNickname())
                 .forEach(article -> {
                     commentRepository.deleteByArticleId(article.getId());

@@ -28,21 +28,21 @@ public class ArticleController {
     private final CommentService commentService;
 
     @GetMapping("/articles")
-    public String articles(Model model){
+    public String articles(Model model) {
         List<Article> articles = articleService.findArticles();
         model.addAttribute("articles", articles);
         return "article/articles";
     }
 
     @GetMapping("/articles/new")
-    public String showCreateForm(Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession){
-        model.addAttribute("articleDto", new ArticleDto("","", userInfoSession.getNickname()));
+    public String showCreateForm(Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession) {
+        model.addAttribute("articleDto", new ArticleDto("", "", userInfoSession.getNickname()));
         return "article/create";
     }
 
     @PostMapping("/articles")
-    public String create(ArticleDto articleDto, BindingResult result, Model model){
-        if(result.hasErrors()){
+    public String create(ArticleDto articleDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             // model.addAttribute() 오류의 원인을 보낸다.
             return "redirect:/articles/new";
         }
@@ -51,11 +51,11 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public String showArticle(@PathVariable("id") long id, Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession){
+    public String showArticle(@PathVariable("id") long id, Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession) {
         Optional<Article> articleOptional = articleService.findOne(id);
-        if(articleOptional.isPresent()){
+        if (articleOptional.isPresent()) {
             List<Comment> comments = commentService.findCommentsByArticleId(id);
-            model.addAttribute("article",articleOptional.get());
+            model.addAttribute("article", articleOptional.get());
             model.addAttribute("comments", comments);
             return "/article/detail";
         }
@@ -64,10 +64,10 @@ public class ArticleController {
     }
 
     @DeleteMapping("/articles/{id}")
-    public String deleteArticle(@PathVariable("id") long id, Model model, @ModelAttribute("userInfo")UserInfoSession userInfoSession, RedirectAttributes redirectAttributes){
+    public String deleteArticle(@PathVariable("id") long id, Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession, RedirectAttributes redirectAttributes) {
         Article article = articleService.findOne(id)
-                .orElseThrow(()-> new IllegalArgumentException("Invalid article Id : " + id));
-        if(!userInfoSession.getNickname().equals(article.getWriter())){
+                .orElseThrow(() -> new IllegalArgumentException("Invalid article Id : " + id));
+        if (!userInfoSession.getNickname().equals(article.getWriter())) {
             redirectAttributes.addFlashAttribute("auth", "삭제 권한이 없습니다.");
             return "redirect:/articles/{id}";
         }
@@ -76,20 +76,20 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/update/{id}")
-    public String showUpdateForm(@PathVariable long id, Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession, RedirectAttributes redirectAttributes){
+    public String showUpdateForm(@PathVariable long id, Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession, RedirectAttributes redirectAttributes) {
         Article article = articleService.findOne(id)
-                .orElseThrow(()-> new IllegalArgumentException("Invalid article Id: "+ id));
-        if(!userInfoSession.getNickname().equals(article.getWriter())){
+                .orElseThrow(() -> new IllegalArgumentException("Invalid article Id: " + id));
+        if (!userInfoSession.getNickname().equals(article.getWriter())) {
             redirectAttributes.addFlashAttribute("auth", "수정 권한이 없습니다.");
             return "redirect:/articles/{id}";
         }
-        model.addAttribute("articleDto", new ArticleDto(article.getTitle(),article.getContent(), article.getWriter()));
+        model.addAttribute("articleDto", new ArticleDto(article.getTitle(), article.getContent(), article.getWriter()));
         return "/article/update";
     }
 
     @PutMapping("/articles/{id}")
-    public String updateArticle(@PathVariable("id") long id, ArticleDto articleDto, BindingResult result){
-        if(result.hasErrors()){
+    public String updateArticle(@PathVariable("id") long id, ArticleDto articleDto, BindingResult result) {
+        if (result.hasErrors()) {
             // TODO : 오류 메시지 등 처리
             return "redirect:/articles/{id}";
         }
