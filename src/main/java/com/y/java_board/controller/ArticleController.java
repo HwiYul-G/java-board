@@ -31,7 +31,8 @@ public class ArticleController {
     @GetMapping("/articles")
     public String articles(
             Model model,
-            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
+            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage
+    ) {
         pagingArticles(model, currentPage);
         return "article/articles";
     }
@@ -72,7 +73,8 @@ public class ArticleController {
             @PathVariable("id") long id,
             Model model,
             @ModelAttribute("userInfo") UserInfoSession userInfoSession,
-            @RequestParam(value = "info", required = false) boolean isFromInfo) {
+            @RequestParam(value = "info", required = false) boolean isFromInfo
+    ) {
         Optional<Article> articleOptional = articleService.findOne(id);
         if (articleOptional.isPresent()) {
             List<Comment> comments = commentService.findCommentsByArticleId(id);
@@ -88,17 +90,11 @@ public class ArticleController {
     @DeleteMapping("/articles/{id}")
     public String deleteArticle(
             @PathVariable("id") long id,
-            Model model,
             @ModelAttribute("userInfo") UserInfoSession userInfoSession,
-            RedirectAttributes redirectAttributes,
             @RequestParam(value = "info", required = false) boolean isFromInfo
     ) {
         Article article = articleService.findOne(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid article Id : " + id));
-        if (!userInfoSession.getNickname().equals(article.getWriter())) {
-            redirectAttributes.addFlashAttribute("auth", "삭제 권한이 없습니다.");
-            return "redirect:/articles/{id}";
-        }
         articleService.deleteOne(id);
         if (isFromInfo) {
             return "redirect:/user/info";
@@ -111,22 +107,23 @@ public class ArticleController {
             @PathVariable long id,
             Model model,
             @ModelAttribute("userInfo") UserInfoSession userInfoSession,
-            RedirectAttributes redirectAttributes,
             @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo
     ) {
         Article article = articleService.findOne(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid article Id: " + id));
-        if (!userInfoSession.getNickname().equals(article.getWriter())) {
-            redirectAttributes.addFlashAttribute("auth", "수정 권한이 없습니다.");
-            return "redirect:/articles/detail/{id}";
-        }
+
         model.addAttribute("articleDto", new ArticleDto(article.getTitle(), article.getContent(), article.getWriter()));
         model.addAttribute("isFromInfo", isFromInfo);
         return "/article/update";
     }
 
     @PutMapping("/articles/{id}")
-    public String updateArticle(@PathVariable("id") long id, ArticleDto articleDto, BindingResult result, @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo) {
+    public String updateArticle(
+            @PathVariable("id") long id,
+            ArticleDto articleDto,
+            BindingResult result,
+            @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo
+    ) {
         if (result.hasErrors()) {
             // TODO : 오류 메시지 등 처리
             return "redirect:/articles/detail/{id}";
