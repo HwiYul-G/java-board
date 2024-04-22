@@ -27,7 +27,6 @@
 - [x] id, content, createdAt, updatedAt, article(owner)
 - [x] 작성하기(create)
   - [x] writer의 값으로 User의 nickname을 넣는다.
-- [] 개별 조회하기(retrieve)
 - [x] 삭제하기(delete)
   - [x] 작성한 사용자만 수정가능하게 한다.
     - 이를 위해 `customAuthenticationSuccessHandler`와 `CustomLogoutSuccessHandler`를 만들고 `SecurityConfig`의 필터체인에 등록해준다.
@@ -65,6 +64,6 @@
     - [x] 댓글 수정
     - [x] 댓글 삭제
     - [x] 게시글 수정
-    - [] 게시글 삭제
+    - [x] 게시글 삭제
 - [x] 내가 쓴 댓글 보기, paging 처리
   - [x] 댓글의 다른 페이지를 클릭해도 기존 게시글 페이지는 유지하기
