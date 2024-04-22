@@ -40,10 +40,6 @@ public class CommentService {
         commentRepository.deleteById(id);
     }
 
-    public void deleteByArticleId(Long articleId) {
-        commentRepository.deleteByArticleId(articleId);
-    }
-
     public Comment updateComment(Long id, String content) {
         Comment origin = commentRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 comment 입니다."));
