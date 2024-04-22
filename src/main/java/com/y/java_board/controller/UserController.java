@@ -1,9 +1,11 @@
 package com.y.java_board.controller;
 
 import com.y.java_board.config.UserInfoSession;
+import com.y.java_board.domain.Article;
 import com.y.java_board.domain.Comment;
 import com.y.java_board.domain.User;
 import com.y.java_board.dto.UserDto;
+import com.y.java_board.service.ArticleService;
 import com.y.java_board.service.CommentService;
 import com.y.java_board.service.ImageService;
 import com.y.java_board.service.UserService;
@@ -31,6 +33,7 @@ public class UserController {
     private final UserService userService;
     private final ImageService imageService;
     private final CommentService commentService;
+    private final ArticleService articleService;
     private final HttpSession session;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -55,11 +58,13 @@ public class UserController {
     public String showUserInfo(
             ModelMap model,
             @ModelAttribute("userInfo") UserInfoSession userInfoSession,
-            @RequestParam(name = "commentPage", required = false, defaultValue = "1") int commentPage) {
+            @RequestParam(name = "commentPage", required = false, defaultValue = "1") int commentPage,
+            @RequestParam(name = "articlePage", required = false, defaultValue = "1") int articlePage) {
         try {
             byte[] profileImageBytes = imageService.getImage(PROFILE_IMG_DIRECTORY, userInfoSession.getProfileImage()); // Unhandled exception : java.io.IOException
             String profileImageBase64 = Base64.getEncoder().encodeToString(profileImageBytes);
             model.put("profileImage", profileImageBase64);
+            articlesByPage(model, articlePage, userInfoSession.getNickname());
             commentsByPage(model, commentPage, userInfoSession.getNickname());
         } catch (IOException e) {
             model.put("profileImage", "");
@@ -129,6 +134,22 @@ public class UserController {
         return "redirect:/user/info";
     }
 
+    @GetMapping("/articleInfo/{articlePageNumber}")
+    public String articlesByPage(ModelMap model, @PathVariable("articlePageNumber") int currentPage, String nickname) {
+        Page<Article> page = articleService.findPagingArticlesByWriter(currentPage, nickname);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+
+        List<Article> myArticles = page.getContent();
+
+        model.put("myArticleTotalItems", totalItems);
+        model.put("myArticleTotalPages", totalPages);
+        model.put("myArticleCurrentPage", currentPage);
+        model.put("myArticles", myArticles);
+
+        return "redirect:/user/info";
+    }
+
     @DeleteMapping("/comments/{commentId}")
     public String deleteCommentById(@PathVariable Long commentId) {
         commentService.deleteComment(commentId);
@@ -136,15 +157,15 @@ public class UserController {
     }
 
     @GetMapping("/user/password")
-    public String showUserPasswordForm(){
+    public String showUserPasswordForm() {
         return "/user/updatePassword";
     }
 
     @PutMapping("/user/updatePassword")
     public String updatePassword(@RequestParam("password") String password,
-                                 @RequestParam("oldPassword") String oldPassword){
+                                 @RequestParam("oldPassword") String oldPassword) {
         User user = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        if(!userService.checkIfValidOldPassword(user, oldPassword)){
+        if (!userService.checkIfValidOldPassword(user, oldPassword)) {
             throw new IllegalArgumentException("비밀 번호가 틀렸습니다.");
         }
         userService.changeUserPassword(user, password);

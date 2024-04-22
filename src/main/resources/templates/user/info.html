@@ -16,8 +16,11 @@
     <div class="container mb-3">
         <a class="btn btn-primary mb-3" th:href="@{/user/profile}"> 프로필 수정 </a>
         <a class="btn btn-primary mb-3" th:href="@{/user/password}"> 비밀번호 변경 </a>
-        <a class="btn btn-primary mb-3" th:href="@{#}"> 내 게시글 조회(아직X) </a>
+        <div th:replace="~{user/_myArticles.html::_myArticles}"></div>
         <div th:replace="~{user/_myComment.html::_myComment}"></div>
+        <form class="mb-3" th:action="@{/user/{email}(email=${userInfo.getEmail()})}" th:method="delete">
+            <button type="submit" class="btn btn-danger">탈퇴 하기</button>
+        </form>
     </div>
 </div>
 </body>

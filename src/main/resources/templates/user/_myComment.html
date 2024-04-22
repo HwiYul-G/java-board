@@ -26,24 +26,20 @@
     </div>
     전체 댓글 : [[${myCommentTotalItems}]] - 페이지 : [[${myCommentCurrentPage}]] of [[${myCommentTotalPages}]]
     &nbsp; - &nbsp;
-    <a th:if="${myCommentCurrentPage > 1}" th:href="@{info?commentPage=1}">맨 앞으로</a>
+    <a th:if="${myCommentCurrentPage > 1}" th:href="@{info?commentPage=1 + '&articlePage='+${myArticleCurrentPage}}">맨 앞으로</a>
     <span th:unless="${myCommentCurrentPage > 1}"> 맨 앞으로 </span>
 
-    <a th:if="${myCommentCurrentPage > 1}" th:href="@{'info?commentPage=' + ${myCommentCurrentPage - 1}}"> 이전 </a>
+    <a th:if="${myCommentCurrentPage > 1}" th:href="@{'info?commentPage=' + ${myCommentCurrentPage - 1}+ '&articlePage='+${myArticleCurrentPage}}"> 이전 </a>
     <span th:unless="${myCommentCurrentPage > 1}">이전</span>
 
     <span th:each="i : ${#numbers.sequence(1, myCommentTotalPages)}">
-                        <a th:if="${i != myCommentCurrentPage }" th:href="@{'info?commentPage=' + ${i}}">[[${i}]]</a>
+                        <a th:if="${i != myCommentCurrentPage }" th:href="@{'info?commentPage=' + ${i}+ '&articlePage='+${myArticleCurrentPage}}">[[${i}]]</a>
                         <span th:unless="${i != myCommentCurrentPage}" >[[${i}]]</span>
                         &nbsp;&nbsp;
                     </span>
 
-    <a th:if="${myCommentCurrentPage < myCommentTotalPages}" th:href="@{'info?commentPage=' + ${myCommentCurrentPage + 1}}">다음</a>
+    <a th:if="${myCommentCurrentPage < myCommentTotalPages}" th:href="@{'info?commentPage=' + ${myCommentCurrentPage + 1}+ '&articlePage='+${myArticleCurrentPage}}">다음</a>
     <span th:unless="${myCommentCurrentPage < myCommentTotalPages}">다음</span>
-    <a th:if="${myCommentCurrentPage < myCommentTotalPages}" th:href="@{'info?commentPage=' + ${myCommentTotalPages}}">마지막</a>
+    <a th:if="${myCommentCurrentPage < myCommentTotalPages}" th:href="@{'info?commentPage=' + ${myCommentTotalPages}+ '&articlePage='+${myArticleCurrentPage}}">마지막</a>
     <span th:unless="${myCommentCurrentPage < myCommentTotalPages}">마지막</span>
-
-    <form class="mb-3" th:action="@{/user/{email}(email=${userInfo.getEmail()})}" th:method="delete">
-        <button type="submit" class="btn btn-danger">탈퇴 하기</button>
-    </form>
 </div>
