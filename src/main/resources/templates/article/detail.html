@@ -25,7 +25,7 @@
 
 
         <div th:if="${article.writer} == ${userInfo.nickname}">
-            <form th:action="@{/articles/{id}(id=${article.id})}" th:method="delete">
+            <form th:action="@{/articles/{id}(id=${article.id}, info=${isFromInfo})}" th:method="delete">
                 <button class="btn btn-danger">삭제 하기</button>
             </form>
             <a class="btn btn-primary" th:href="@{/articles/update/{id}(id=${article.id}, info=${isFromInfo})}">수정 하기</a>
