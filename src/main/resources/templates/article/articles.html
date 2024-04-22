@@ -21,12 +21,30 @@
                     <td th:text="${article.id}"></td>
                     <td th:text="${article.title}"></td>
                     <td th:text="${article.writer}"></td>
-                    <td th:text="${article.createdAt}"></td>
-                    <td th:text="${article.updatedAt}"></td>
+                    <td th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd, HH:mm')}"></td>
+                    <td th:text="${#temporals.format(article.updatedAt, 'yyyy-MM-dd, HH:mm')}"></td>
                     <td><a th:href="@{/articles/{id}(id=${article.id})}" class="btn btn-primary">보기</a></td>
                 </tr>
             </tbody>
         </table>
+        전체 게시글 : [[${totalArticles}]] - 페이지 [[${currentPage}]] of [[${totalPages}]]
+        <a th:if="${currentPage > 1}" th:href="@{articles?currentPage=1}">맨 앞으로</a>
+        <span th:unless="${currentPage > 1}"> 맨 앞으로 </span>
+
+        <a th:if="${currentPage > 1}" th:href="@{'articles?currentPage=' + ${currentPage - 1}}"> 이전 </a>
+        <span th:unless="${currentPage > 1}">이전</span>
+
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                        <a th:if="${i != currentPage }" th:href="@{'articles?currentPage=' + ${i}}">[[${i}]]</a>
+                        <span th:unless="${i != currentPage}" >[[${i}]]</span>
+                        &nbsp;&nbsp;
+                    </span>
+
+        <a th:if="${currentPage < totalPages}" th:href="@{'articles?currentPage=' + ${currentPage + 1}}">다음</a>
+        <span th:unless="${currentPage < totalPages}">다음</span>
+        <a th:if="${currentPage < totalPages}" th:href="@{'articles?currentPage=' + ${totalPages}}">마지막</a>
+        <span th:unless="${currentPage < totalPages}">마지막</span>
+
         <a href="/articles/new" class="btn btn-primary">새 게시글 작성</a>
     </div>
     <script src="webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>

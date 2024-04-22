@@ -9,6 +9,7 @@ import com.y.java_board.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,10 +29,26 @@ public class ArticleController {
     private final CommentService commentService;
 
     @GetMapping("/articles")
-    public String articles(Model model) {
-        List<Article> articles = articleService.findArticles();
-        model.addAttribute("articles", articles);
+    public String articles(
+            Model model,
+           @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
+        pagingArticles(model, currentPage);
         return "article/articles";
+    }
+
+    @GetMapping("/articles/{pageNumber}")
+    public String pagingArticles(Model model, @PathVariable("pageNumber") int currentPage){
+        Page<Article> page = articleService.findPagingArticles(currentPage);
+        long totalItems = page.getTotalElements();
+        int totalPages = page.getTotalPages();
+
+        List<Article> articles = page.getContent();
+
+        model.addAttribute("totalArticles",totalItems);
+        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("articles", articles);
+        return "redirect:/articles";
     }
 
     @GetMapping("/articles/new")
