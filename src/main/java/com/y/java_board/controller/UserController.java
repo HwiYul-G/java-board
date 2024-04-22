@@ -57,12 +57,7 @@ public class UserController {
             @ModelAttribute("userInfo") UserInfoSession userInfoSession,
             @RequestParam(name = "commentPage", required = false, defaultValue = "1") int commentPage) {
         try {
-            byte[] profileImageBytes;
-            if(userInfoSession.getProfileImage() == null){
-                profileImageBytes = imageService.getImage(PROFILE_IMG_DIRECTORY, "default_profile.png");
-            }else{
-                profileImageBytes = imageService.getImage(PROFILE_IMG_DIRECTORY, userInfoSession.getProfileImage()); // Unhandled exception : java.io.IOException
-            }
+            byte[] profileImageBytes = imageService.getImage(PROFILE_IMG_DIRECTORY, userInfoSession.getProfileImage()); // Unhandled exception : java.io.IOException
             String profileImageBase64 = Base64.getEncoder().encodeToString(profileImageBytes);
             model.put("profileImage", profileImageBase64);
             commentsByPage(model, commentPage, userInfoSession.getNickname());

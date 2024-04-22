@@ -29,7 +29,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             User user = userRepository.findByEmail(email).get();
             String nickname = user.getNickname();
             String name = user.getName();
-            String profileImg = user.getProfileImage();
+            String profileImg = "default_profile.png";
+            if(user.getProfileImage() != null && !user.getProfileImage().isEmpty()){
+                profileImg = user.getProfileImage();
+            }
             session.setAttribute("userInfo", UserInfoSession.builder()
                     .nickname(nickname)
                     .email(email)
