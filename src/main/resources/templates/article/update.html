@@ -4,7 +4,7 @@
 <body>
     <div class="container">
         <h1>게시글 수정하기</h1>
-        <form th:action="@{/articles/{id}(id=${id})}" th:object="${articleDto}" th:method="put">
+        <form th:action="@{/articles/{id}(id=${id}, info=${isFromInfo})}" th:object="${articleDto}" th:method="put">
             <div class="mb-3">
                 <div class="mb-3">
                     <label for="title">제목</label>
@@ -20,7 +20,7 @@
             </div>
             <button type="submit" class="btn btn-primary">수정 완료</button>
         </form>
-        <a class="btn btn-primary" th:href="@{/articles/{id}(id=${id})}">뒤로 가기</a>
+        <a class="btn btn-primary" th:href="@{/articles/detail/{id}(id=${id}, info=${isFromInfo})}">뒤로 가기</a>
     </div>
 
     <script src="webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>

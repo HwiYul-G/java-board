@@ -91,7 +91,7 @@ public class ArticleController {
             Model model,
             @ModelAttribute("userInfo") UserInfoSession userInfoSession,
             RedirectAttributes redirectAttributes,
-            @RequestParam("info") boolean isFromInfo
+            @RequestParam(value = "info", required = false) boolean isFromInfo
     ) {
         Article article = articleService.findOne(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid article Id : " + id));
@@ -107,7 +107,13 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/update/{id}")
-    public String showUpdateForm(@PathVariable long id, Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession, RedirectAttributes redirectAttributes) {
+    public String showUpdateForm(
+            @PathVariable long id,
+            Model model,
+            @ModelAttribute("userInfo") UserInfoSession userInfoSession,
+            RedirectAttributes redirectAttributes,
+            @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo
+    ) {
         Article article = articleService.findOne(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid article Id: " + id));
         if (!userInfoSession.getNickname().equals(article.getWriter())) {
@@ -115,11 +121,12 @@ public class ArticleController {
             return "redirect:/articles/detail/{id}";
         }
         model.addAttribute("articleDto", new ArticleDto(article.getTitle(), article.getContent(), article.getWriter()));
+        model.addAttribute("isFromInfo", isFromInfo);
         return "/article/update";
     }
 
     @PutMapping("/articles/{id}")
-    public String updateArticle(@PathVariable("id") long id, ArticleDto articleDto, BindingResult result) {
+    public String updateArticle(@PathVariable("id") long id, ArticleDto articleDto, BindingResult result, @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo) {
         if (result.hasErrors()) {
             // TODO : 오류 메시지 등 처리
             return "redirect:/articles/detail/{id}";
@@ -128,6 +135,9 @@ public class ArticleController {
         article.setId(id);
 
         articleService.updateOne(article);
+        if(isFromInfo){
+            return "redirect:/articles/detail/{id}?info=true";
+        }
         return "redirect:/articles/detail/{id}";
     }
 

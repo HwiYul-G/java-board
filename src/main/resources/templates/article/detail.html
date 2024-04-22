@@ -13,11 +13,11 @@
                 <ul class="mb-0 mt-5">
                     <li>
                         <h6 class="mb-5">작성일</h6>
-                        <p th:text="${article.createdAt}"></p>
+                        <span th:text="${article.createdAt}"></span>
                     </li>
                     <li>
                         <h6 class="mb-5">수정일</h6>
-                        <p th:text="${article.updatedAt}"></p>
+                        <span th:text="${article.updatedAt}"></span>
                     </li>
                 </ul>
             </div>
@@ -28,7 +28,7 @@
             <form th:action="@{/articles/{id}(id=${article.id})}" th:method="delete">
                 <button class="btn btn-danger">삭제 하기</button>
             </form>
-            <a class="btn btn-primary" th:href="@{/articles/update/{id}(id=${article.id})}">수정 하기</a>
+            <a class="btn btn-primary" th:href="@{/articles/update/{id}(id=${article.id}, info=${isFromInfo})}">수정 하기</a>
         </div>
         <a th:if="${!isFromInfo}" class="btn btn-primary" th:href="@{/articles}">뒤로 가기</a>
         <a th:if="${isFromInfo}" class="btn btn-primary" th:href="@{/user/info}">뒤로 가기</a>
