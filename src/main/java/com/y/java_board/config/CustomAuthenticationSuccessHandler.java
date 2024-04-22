@@ -1,6 +1,7 @@
 package com.y.java_board.config;
 
-import com.y.java_board.service.UserService;
+import com.y.java_board.domain.User;
+import com.y.java_board.repository.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -25,9 +26,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         HttpSession session = request.getSession(false);
         if (session != null) {
             String email = authentication.getName();
-            String nickname = userService.getNicknameByEmail(email);
-            String name = userService.getNameByEmail(email);
-            String profileImg = userService.getProfileImageURIByEmail(email);
+            User user = userRepository.findByEmail(email).get();
+            String nickname = user.getNickname();
+            String name = user.getName();
+            String profileImg = user.getProfileImage();
             session.setAttribute("userInfo", UserInfoSession.builder()
                     .nickname(nickname)
                     .email(email)
