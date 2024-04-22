@@ -2,11 +2,13 @@ package com.y.java_board.service;
 
 
 import com.y.java_board.domain.User;
+import com.y.java_board.dto.UserDto;
 import com.y.java_board.repository.ArticleRepository;
 import com.y.java_board.repository.CommentRepository;
 import com.y.java_board.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -20,16 +22,17 @@ public class UserService {
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public User register(User user) throws IllegalStateException {
-        userRepository.findByEmail(user.getEmail())
-                .ifPresent(u -> {
-                    throw new IllegalArgumentException("[중복 이메일] 이미 가입된 이메일 입니다.");
-                });
-        userRepository.findByNickname(user.getNickname())
-                .ifPresent(u -> {
-                    throw new IllegalStateException("[중복 닉네임] 이미 존재하는 닉네임 입니다.");
-                });
+    public User registerNewUserAccount(UserDto userDto) throws IllegalStateException {
+        if(emailExists(userDto.email())){
+            throw new IllegalStateException("중복 이메일");
+        }
+        if(nicknameExists(userDto.nickname())){
+            throw new IllegalStateException("중복 닉네임");
+        }
+        User user = userDto.toEntity();
+        user.setPassword(passwordEncoder.encode(userDto.password()));
         return userRepository.save(user);
     }
 
@@ -86,5 +89,25 @@ public class UserService {
         userRepository.deleteById(user.getId());
     }
 
+    public void changeUserPassword(User user, String password){
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
 
+    public boolean checkIfValidOldPassword(final User user, final String oldPassword){
+        return passwordEncoder.matches(oldPassword, user.getPassword());
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("[존재하지 않는 이메일] "));
+    }
+
+    private boolean emailExists(String email){
+        return userRepository.findByEmail(email).isPresent();
+    }
+
+    private boolean nicknameExists(String nickname){
+        return userRepository.findByNickname(nickname).isPresent();
+    }
 }
