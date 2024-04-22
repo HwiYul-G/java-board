@@ -39,7 +39,11 @@
 - [x] id, nickname, email, password, name
 - [x] 등록하기(register)
 - [] 수정하기(update)
-  - [] password수정
+  - [x] password수정
+    - 데이터베이스에 저장된 그 비밀번호와 비교할 수 있어야 한다.
+    - 올바른 비밀번호를 입력해도 비교가 제대로 안 되는 문제가 있었다.
+    - 이는 비밀번호를 encode해서 입력될 때 같은 값이여도 다르게 되는 문제 때문이다. (random salt사용)
+    - 정확히 authentication context의 것을 가져와서 수행한다.
   - [] email 수정
     - 세션에 등록된 email도 변경 되게 해야 한다.
   - [x] 이미지 수정
