@@ -19,7 +19,7 @@
                 <td th:text="${comment.writer}"></td>
                 <td>
                     <span th:id="'commentContentSpan-' + ${comment.id}" th:text="${comment.content}"></span>
-                    <form th:action="@{'/articles/' + ${article.id} + '/comments/' + ${comment.id}}" th:method="put" th:id="'editForm-' + ${comment.id}" style="display: none;">
+                    <form th:action="@{/articles/{articleId}/comments/{commentId}(articleId=${article.id}, commentId=${comment.id}, info=${isFromInfo})}" th:method="put" th:id="'editForm-' + ${comment.id}" style="display: none;">
                         <input type="text" class="form-control" th:name="'content'" th:value="${comment.content}"/>
                         <button type="submit" class="btn btn-success">완료</button>
                     </form>
@@ -33,7 +33,7 @@
                             th:text="수정"></button>
                 </td>
                 <td th:if="${comment.writer} == ${userInfo.nickname}">
-                    <form th:action="@{/articles/{articleId}/comments/{id}(articleId=${article.id}, id=${comment.id})}" th:method="delete">
+                    <form th:action="@{/articles/{articleId}/comments/{id}(articleId=${article.id}, id=${comment.id}, info=${isFromInfo})}" th:method="delete">
                         <button class="btn btn-danger">삭제</button>
                     </form>
                 </td>

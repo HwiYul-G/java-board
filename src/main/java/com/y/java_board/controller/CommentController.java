@@ -16,22 +16,36 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/articles/{articleId}/comments")
-    public String create(@PathVariable Long articleId, @ModelAttribute("userInfo")UserInfoSession userInfoSession, CommentDto dto) {
+    public String create(
+            @PathVariable Long articleId,
+            @ModelAttribute("userInfo")UserInfoSession userInfoSession,
+            CommentDto dto,
+            @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo
+    ) {
         CommentDto commentDto = new CommentDto(userInfoSession.getNickname(), dto.content(), articleId);
         commentService.createOne(commentDto, articleId);
+        if(isFromInfo){
+            return "redirect:/articles/detail/{articleId}?info=true";
+        }
         return "redirect:/articles/detail/{articleId}";
     }
 
     @DeleteMapping("/articles/{articleId}/comments/{id}")
-    public String delete(@PathVariable Long id, @PathVariable Long articleId){
+    public String delete(@PathVariable Long id, @PathVariable Long articleId,  @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo){
         commentService.deleteComment(id);
+        if(isFromInfo){
+            return "redirect:/articles/detail/{articleId}?info=true";
+        }
         return "redirect:/articles/detail/{articleId}";
     }
 
 
     @PutMapping("/articles/{articleId}/comments/{id}")
-    public String update(@PathVariable Long articleId, @PathVariable Long id, String content){
+    public String update(@PathVariable Long articleId, @PathVariable Long id, String content, @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo){
         commentService.updateComment(id, content);
+        if(isFromInfo){
+            return "redirect:/articles/detail/{articleId}?info=true";
+        }
         return "redirect:/articles/detail/{articleId}";
     }
 
