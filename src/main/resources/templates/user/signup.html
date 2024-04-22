@@ -7,7 +7,7 @@
             <h1>회원 가입 페이지</h1>
         </div>
 
-        <form th:action="@{/user/register}" method="post" th:object="${userDto}">
+        <form th:action="@{/user/register}" th:method="post" th:object="${userDto}">
             <div class="mb-3">
                 <label class="col-form-label col-4" for="email">이메일</label>
                 <input type="email" class="form-c" th:field="*{email}" id="email" required>
@@ -26,7 +26,9 @@
             </div>
             <button type="submit" class="btn btn-primary">제출</button>
         </form>
-
+        <div th:if="${error != null}">
+            <span th:text="${error} + '을 원인으로 회원가입을 할 수 없습니다.'"></span>
+        </div>
         <a class="btn btn-primary" href="/">뒤로 가기</a>
     </div>
 </body>

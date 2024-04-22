@@ -36,12 +36,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public String getNicknameByEmail(String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        return userOptional.map(User::getNickname)
-                .orElseThrow(() -> new IllegalArgumentException("[존재하지 않는 이메일] 해당 이메일의 사용자를 찾을 수 없습니다."));
-    }
-
     public User updateUserProfile(User user) {
         Optional<User> userOptional = userRepository.findByEmail(user.getEmail());
         if (userOptional.isPresent()) {
@@ -61,18 +55,6 @@ public class UserService {
             return userRepository.save(userOptional.get());
         }
         throw new IllegalStateException("[존재하지 않는 이메일] 해당 이메일 사용자가 없어서 프로필 정보를 업데이트 할 수 없습니다.");
-    }
-
-    public String getProfileImageURIByEmail(String email) {
-        String profileImageString = "default_profile.png";
-        return userRepository.findByEmail(email).map(User::getProfileImage)
-                .filter(profileImage -> !profileImage.isEmpty())
-                .orElse(profileImageString);
-    }
-
-    public String getNameByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .map(User::getName).orElseThrow(() -> new IllegalArgumentException("[존재하지 않는 이메일] 해당 이메일의 사용자를 찾을 수 없습니다."));
     }
 
     @Transactional

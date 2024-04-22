@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -45,13 +46,14 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
-    public String signUp(UserDto userDto) {
+    public String signUp(UserDto userDto, RedirectAttributes redirectAttributes) {
         try {
             User registered = userService.registerNewUserAccount(userDto);
+            return "redirect:/";
         } catch (IllegalStateException e) {
-            // TODO : 오류 처리
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/user/register";
         }
-        return "redirect:/";
     }
 
     @GetMapping("/user/info")
@@ -110,7 +112,10 @@ public class UserController {
 
 
     @DeleteMapping("/user/{email}")
-    public String deleteUser(@PathVariable("email") String email, @ModelAttribute("userInfo") UserInfoSession userInfoSession) throws IOException {
+    public String deleteUser(
+            @PathVariable("email") String email,
+            @ModelAttribute("userInfo") UserInfoSession userInfoSession
+    ) throws IOException {
         String profileImg = userInfoSession.getProfileImage();
         userService.deleteUser(email);
         if (!profileImg.equals("default_profile.png"))
@@ -162,11 +167,15 @@ public class UserController {
     }
 
     @PutMapping("/user/updatePassword")
-    public String updatePassword(@RequestParam("password") String password,
-                                 @RequestParam("oldPassword") String oldPassword) {
+    public String updatePassword(
+            @RequestParam("password") String password,
+            @RequestParam("oldPassword") String oldPassword,
+            RedirectAttributes redirectAttributes
+    ) {
         User user = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         if (!userService.checkIfValidOldPassword(user, oldPassword)) {
-            throw new IllegalArgumentException("비밀 번호가 틀렸습니다.");
+            redirectAttributes.addFlashAttribute("isWrong", true);
+            return "redirect:/user/password";
         }
         userService.changeUserPassword(user, password);
         return "redirect:/user/info";

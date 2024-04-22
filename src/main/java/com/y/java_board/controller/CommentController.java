@@ -31,7 +31,11 @@ public class CommentController {
     }
 
     @DeleteMapping("/articles/{articleId}/comments/{id}")
-    public String delete(@PathVariable Long id, @PathVariable Long articleId, @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo) {
+    public String delete(
+            @PathVariable Long id,
+            @PathVariable Long articleId,
+            @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo
+    ) {
         commentService.deleteComment(id);
         if (isFromInfo) {
             return "redirect:/articles/detail/{articleId}?info=true";
