@@ -18,22 +18,22 @@ public class CommentController {
     @PostMapping("/articles/{articleId}/comments")
     public String create(
             @PathVariable Long articleId,
-            @ModelAttribute("userInfo")UserInfoSession userInfoSession,
+            @ModelAttribute("userInfo") UserInfoSession userInfoSession,
             CommentDto dto,
             @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo
     ) {
         CommentDto commentDto = new CommentDto(userInfoSession.getNickname(), dto.content(), articleId);
         commentService.createOne(commentDto, articleId);
-        if(isFromInfo){
+        if (isFromInfo) {
             return "redirect:/articles/detail/{articleId}?info=true";
         }
         return "redirect:/articles/detail/{articleId}";
     }
 
     @DeleteMapping("/articles/{articleId}/comments/{id}")
-    public String delete(@PathVariable Long id, @PathVariable Long articleId,  @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo){
+    public String delete(@PathVariable Long id, @PathVariable Long articleId, @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo) {
         commentService.deleteComment(id);
-        if(isFromInfo){
+        if (isFromInfo) {
             return "redirect:/articles/detail/{articleId}?info=true";
         }
         return "redirect:/articles/detail/{articleId}";
@@ -41,9 +41,9 @@ public class CommentController {
 
 
     @PutMapping("/articles/{articleId}/comments/{id}")
-    public String update(@PathVariable Long articleId, @PathVariable Long id, String content, @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo){
+    public String update(@PathVariable Long articleId, @PathVariable Long id, String content, @RequestParam(value = "info", required = false, defaultValue = "false") boolean isFromInfo) {
         commentService.updateComment(id, content);
-        if(isFromInfo){
+        if (isFromInfo) {
             return "redirect:/articles/detail/{articleId}?info=true";
         }
         return "redirect:/articles/detail/{articleId}";

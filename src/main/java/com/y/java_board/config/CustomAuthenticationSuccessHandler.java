@@ -30,7 +30,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             String nickname = user.getNickname();
             String name = user.getName();
             String profileImg = "default_profile.png";
-            if(user.getProfileImage() != null && !user.getProfileImage().isEmpty()){
+            if (user.getProfileImage() != null && !user.getProfileImage().isEmpty()) {
                 profileImg = user.getProfileImage();
             }
             session.setAttribute("userInfo", UserInfoSession.builder()

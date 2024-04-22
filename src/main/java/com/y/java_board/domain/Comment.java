@@ -24,18 +24,18 @@ public class Comment {
     @ManyToOne
     private Article article;
 
-    public Comment(){
+    public Comment() {
         createdAt = updatedAt = LocalDateTime.now();
     }
 
-    public Comment(String writer, String content, Article article){
+    public Comment(String writer, String content, Article article) {
         this.writer = writer;
         this.content = content;
         this.article = article;
         createdAt = updatedAt = LocalDateTime.now();
     }
 
-    public static Comment createComment(CommentDto commentDto, Article article){
+    public static Comment createComment(CommentDto commentDto, Article article) {
         return new Comment(commentDto.writer(), commentDto.content(), article);
     }
 

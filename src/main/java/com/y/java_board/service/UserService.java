@@ -25,10 +25,10 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public User registerNewUserAccount(UserDto userDto) throws IllegalStateException {
-        if(emailExists(userDto.email())){
+        if (emailExists(userDto.email())) {
             throw new IllegalStateException("중복 이메일");
         }
-        if(nicknameExists(userDto.nickname())){
+        if (nicknameExists(userDto.nickname())) {
             throw new IllegalStateException("중복 닉네임");
         }
         User user = userDto.toEntity();
@@ -89,12 +89,12 @@ public class UserService {
         userRepository.deleteById(user.getId());
     }
 
-    public void changeUserPassword(User user, String password){
+    public void changeUserPassword(User user, String password) {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
     }
 
-    public boolean checkIfValidOldPassword(final User user, final String oldPassword){
+    public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
         return passwordEncoder.matches(oldPassword, user.getPassword());
     }
 
@@ -103,11 +103,11 @@ public class UserService {
                 .orElseThrow(() -> new IllegalStateException("[존재하지 않는 이메일] "));
     }
 
-    private boolean emailExists(String email){
+    private boolean emailExists(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
 
-    private boolean nicknameExists(String nickname){
+    private boolean nicknameExists(String nickname) {
         return userRepository.findByNickname(nickname).isPresent();
     }
 }

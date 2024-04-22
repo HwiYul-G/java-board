@@ -31,21 +31,21 @@ public class ArticleController {
     @GetMapping("/articles")
     public String articles(
             Model model,
-           @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
+            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
         pagingArticles(model, currentPage);
         return "article/articles";
     }
 
     @GetMapping("/articles/{pageNumber}")
-    public String pagingArticles(Model model, @PathVariable("pageNumber") int currentPage){
+    public String pagingArticles(Model model, @PathVariable("pageNumber") int currentPage) {
         Page<Article> page = articleService.findPagingArticles(currentPage);
         long totalItems = page.getTotalElements();
         int totalPages = page.getTotalPages();
 
         List<Article> articles = page.getContent();
 
-        model.addAttribute("totalArticles",totalItems);
-        model.addAttribute("totalPages",totalPages);
+        model.addAttribute("totalArticles", totalItems);
+        model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("articles", articles);
         return "redirect:/articles";
@@ -100,7 +100,7 @@ public class ArticleController {
             return "redirect:/articles/{id}";
         }
         articleService.deleteOne(id);
-        if(isFromInfo){
+        if (isFromInfo) {
             return "redirect:/user/info";
         }
         return "redirect:/articles";
@@ -135,7 +135,7 @@ public class ArticleController {
         article.setId(id);
 
         articleService.updateOne(article);
-        if(isFromInfo){
+        if (isFromInfo) {
             return "redirect:/articles/detail/{id}?info=true";
         }
         return "redirect:/articles/detail/{id}";

@@ -56,13 +56,13 @@ public class ArticleService {
         return origin.getId();
     }
 
-    public Page<Article> findPagingArticles(int pageNumber){
+    public Page<Article> findPagingArticles(int pageNumber) {
         Pageable pageable = PageRequest.of(pageNumber - 1, 10);
         return pagingArticleRepository.findAll(pageable);
     }
 
-    public Page<Article> findPagingArticlesByWriter(int pageNumber, String nickname){
-        Pageable pageable = PageRequest.of(pageNumber -1, 3);
+    public Page<Article> findPagingArticlesByWriter(int pageNumber, String nickname) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, 3);
         return pagingArticleRepository.findByWriter(nickname, pageable);
     }
 

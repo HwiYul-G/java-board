@@ -3,9 +3,12 @@ package com.y.java_board.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity @Data
-@Getter @Setter
-@AllArgsConstructor @NoArgsConstructor
+@Entity
+@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class User {
     @Id
@@ -19,7 +22,7 @@ public class User {
     private String nickname;
     private String profileImage;
 
-    public User(String email, String password, String name, String nickname){
+    public User(String email, String password, String name, String nickname) {
         this.email = email;
         this.password = password;
         this.name = name;

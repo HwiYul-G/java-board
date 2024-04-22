@@ -22,7 +22,7 @@ public class Article {
     @OneToMany(mappedBy = "article")
     private List<Comment> comments;
 
-    public Article(){
+    public Article() {
         createdAt = updatedAt = LocalDateTime.now();
     }
 
@@ -33,7 +33,7 @@ public class Article {
         this.createdAt = this.updatedAt = LocalDateTime.now();
     }
 
-    public void patch(Article article){
+    public void patch(Article article) {
         this.title = article.title;
         this.content = article.content;
         this.writer = article.writer;
