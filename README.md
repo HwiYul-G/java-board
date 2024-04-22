@@ -14,6 +14,7 @@
   - [x] writer의 값으로 User의 nickname을 넣는다.
 - [x] 개별 조회하기(retrieve)
 - [x] 목록 조회하기
+  - [x] 페이징 적용 
 - [x] 수정하기(update)
   - [x] 작성한 User만 수정이 가능하게 한다.
   - [x] 이를 위해선 사용자 nickname(writer)가 중복이 안 되게 해야한다.
