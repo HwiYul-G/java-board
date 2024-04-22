@@ -20,7 +20,7 @@ class ArticleServiceTest {
     public void beforeEach(){
         // 임시적으로..
         memoryArticleRepository = new MemoryArticleRepository();
-        articleService = new ArticleService(memoryArticleRepository, null);
+        articleService = new ArticleService(memoryArticleRepository, null, null);
     }
 
     @AfterEach
