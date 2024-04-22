@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +31,6 @@ public class UserController {
     private final UserService userService;
     private final ImageService imageService;
     private final CommentService commentService;
-    private final PasswordEncoder passwordEncoder;
     private final HttpSession session;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -45,10 +44,7 @@ public class UserController {
     @PostMapping("/user/register")
     public String signUp(UserDto userDto) {
         try {
-            User user = userDto.toEntity();
-            user.setPassword(passwordEncoder.encode(userDto.password()));
-
-            userService.register(user);
+            User registered = userService.registerNewUserAccount(userDto);
         } catch (IllegalStateException e) {
             // TODO : 오류 처리
         }
@@ -61,7 +57,12 @@ public class UserController {
             @ModelAttribute("userInfo") UserInfoSession userInfoSession,
             @RequestParam(name = "commentPage", required = false, defaultValue = "1") int commentPage) {
         try {
-            byte[] profileImageBytes = imageService.getImage(PROFILE_IMG_DIRECTORY, userInfoSession.getProfileImage()); // Unhandled exception : java.io.IOException
+            byte[] profileImageBytes;
+            if(userInfoSession.getProfileImage() == null){
+                profileImageBytes = imageService.getImage(PROFILE_IMG_DIRECTORY, "default_profile.png");
+            }else{
+                profileImageBytes = imageService.getImage(PROFILE_IMG_DIRECTORY, userInfoSession.getProfileImage()); // Unhandled exception : java.io.IOException
+            }
             String profileImageBase64 = Base64.getEncoder().encodeToString(profileImageBytes);
             model.put("profileImage", profileImageBase64);
             commentsByPage(model, commentPage, userInfoSession.getNickname());
@@ -138,5 +139,22 @@ public class UserController {
         commentService.deleteComment(commentId);
         return "redirect:/user/info";
     }
+
+    @GetMapping("/user/password")
+    public String showUserPasswordForm(){
+        return "/user/updatePassword";
+    }
+
+    @PutMapping("/user/updatePassword")
+    public String updatePassword(@RequestParam("password") String password,
+                                 @RequestParam("oldPassword") String oldPassword){
+        User user = userService.findUserByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        if(!userService.checkIfValidOldPassword(user, oldPassword)){
+            throw new IllegalArgumentException("비밀 번호가 틀렸습니다.");
+        }
+        userService.changeUserPassword(user, password);
+        return "redirect:/user/info";
+    }
+
 
 }
