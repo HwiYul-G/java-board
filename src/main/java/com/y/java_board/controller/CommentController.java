@@ -19,20 +19,20 @@ public class CommentController {
     public String create(@PathVariable Long articleId, @ModelAttribute("userInfo")UserInfoSession userInfoSession, CommentDto dto) {
         CommentDto commentDto = new CommentDto(userInfoSession.getNickname(), dto.content(), articleId);
         commentService.createOne(commentDto, articleId);
-        return "redirect:/articles/{articleId}";
+        return "redirect:/articles/detail/{articleId}";
     }
 
     @DeleteMapping("/articles/{articleId}/comments/{id}")
     public String delete(@PathVariable Long id, @PathVariable Long articleId){
         commentService.deleteComment(id);
-        return "redirect:/articles/{articleId}";
+        return "redirect:/articles/detail/{articleId}";
     }
 
 
     @PutMapping("/articles/{articleId}/comments/{id}")
     public String update(@PathVariable Long articleId, @PathVariable Long id, String content){
         commentService.updateComment(id, content);
-        return "redirect:/articles/{articleId}";
+        return "redirect:/articles/detail/{articleId}";
     }
 
 }
