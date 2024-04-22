@@ -67,13 +67,18 @@ public class ArticleController {
         return "redirect:/articles";
     }
 
-    @GetMapping("/articles/{id}")
-    public String showArticle(@PathVariable("id") long id, Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession) {
+    @GetMapping("/articles/detail/{id}")
+    public String showArticle(
+            @PathVariable("id") long id,
+            Model model,
+            @ModelAttribute("userInfo") UserInfoSession userInfoSession,
+            @RequestParam(value = "info", required = false) boolean isFromInfo) {
         Optional<Article> articleOptional = articleService.findOne(id);
         if (articleOptional.isPresent()) {
             List<Comment> comments = commentService.findCommentsByArticleId(id);
             model.addAttribute("article", articleOptional.get());
             model.addAttribute("comments", comments);
+            model.addAttribute("isFromInfo", isFromInfo);
             return "/article/detail";
         }
         // TODO : 해당 id 가 없다는 안내가 필요할 것 같다.
@@ -81,7 +86,13 @@ public class ArticleController {
     }
 
     @DeleteMapping("/articles/{id}")
-    public String deleteArticle(@PathVariable("id") long id, Model model, @ModelAttribute("userInfo") UserInfoSession userInfoSession, RedirectAttributes redirectAttributes) {
+    public String deleteArticle(
+            @PathVariable("id") long id,
+            Model model,
+            @ModelAttribute("userInfo") UserInfoSession userInfoSession,
+            RedirectAttributes redirectAttributes,
+            @RequestParam("info") boolean isFromInfo
+    ) {
         Article article = articleService.findOne(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid article Id : " + id));
         if (!userInfoSession.getNickname().equals(article.getWriter())) {
@@ -89,6 +100,9 @@ public class ArticleController {
             return "redirect:/articles/{id}";
         }
         articleService.deleteOne(id);
+        if(isFromInfo){
+            return "redirect:/user/info";
+        }
         return "redirect:/articles";
     }
 
