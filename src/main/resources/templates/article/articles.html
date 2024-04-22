@@ -23,7 +23,7 @@
                     <td th:text="${article.writer}"></td>
                     <td th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd, HH:mm')}"></td>
                     <td th:text="${#temporals.format(article.updatedAt, 'yyyy-MM-dd, HH:mm')}"></td>
-                    <td><a th:href="@{/articles/{id}(id=${article.id})}" class="btn btn-primary">보기</a></td>
+                    <td><a th:href="@{/articles/detail/{id}(id=${article.id})}" class="btn btn-primary">보기</a></td>
                 </tr>
             </tbody>
         </table>

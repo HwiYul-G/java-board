@@ -16,9 +16,9 @@
                     <td th:text="${myArticle.title}"></td>
                     <td th:text="${#temporals.format(myArticle.createdAt, 'yyyy-MM-dd, HH:mm')}"></td>
                     <td th:text="${#temporals.format(myArticle.createdAt, 'yyyy-MM-dd, HH:mm')}"></td>
-                    <td><a class="btn btn-primary">보기</a></td>
+                    <td><a th:href ="@{'/articles/detail/' + ${myArticle.id} + '?info=true'}" class="btn btn-primary">보기</a></td>
                     <td>
-                        <form th:action="@{/articles/{id}(id=${myArticle.id})}" th:method="delete">
+                        <form th:action="@{'/articles/' + ${myArticle.id} + '?info=true'}" th:method="delete">
                             <button type="submit" class="btn btn-danger">삭제</button>
                         </form>
                     </td>
