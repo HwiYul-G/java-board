@@ -1,6 +1,8 @@
 package com.y.java_board.config;
 
-import com.y.java_board.service.CustomUserDetailsService;
+import com.y.java_board.config.security.CustomAuthenticationSuccessHandler;
+import com.y.java_board.config.security.CustomLogoutSuccessHandler;
+import com.y.java_board.config.security.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

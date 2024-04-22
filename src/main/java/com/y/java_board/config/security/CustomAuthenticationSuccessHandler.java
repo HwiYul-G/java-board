@@ -1,5 +1,6 @@
-package com.y.java_board.config;
+package com.y.java_board.config.security;
 
+import com.y.java_board.config.UserInfoSession;
 import com.y.java_board.domain.User;
 import com.y.java_board.repository.UserRepository;
 import jakarta.servlet.ServletException;

@@ -1,5 +1,6 @@
-package com.y.java_board.domain;
+package com.y.java_board.config.security;
 
+import com.y.java_board.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,30 +9,15 @@ import java.util.Collection;
 public class UserDetailModel implements UserDetails {
     private final String userEmail;
     private final String password;
-    private final String nickname;
-    private final String name;
-    // private List<GrantedAuthority> authorities;
 
     public UserDetailModel(User user) {
         this.userEmail = user.getEmail();
         this.password = user.getPassword();
-        this.nickname = user.getNickname();
-        this.name = user.getName();
-        // this.authorities = Stream.of(user.getRoles().split(","))
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // return this.authorities;
         return null;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getName() {
-        return name;
     }
 
     @Override

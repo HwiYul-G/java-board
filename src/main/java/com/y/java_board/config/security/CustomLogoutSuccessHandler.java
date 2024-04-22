@@ -1,4 +1,4 @@
-package com.y.java_board.config;
+package com.y.java_board.config.security;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

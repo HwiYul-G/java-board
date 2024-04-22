@@ -1,7 +1,6 @@
-package com.y.java_board.service;
+package com.y.java_board.config.security;
 
 import com.y.java_board.domain.User;
-import com.y.java_board.domain.UserDetailModel;
 import com.y.java_board.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
