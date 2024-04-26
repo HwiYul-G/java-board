@@ -163,7 +163,7 @@ public class UserController {
 
     @GetMapping("/user/password")
     public String showUserPasswordForm() {
-        return "/user/updatePassword";
+        return "user/updatePassword";
     }
 
     @PutMapping("/user/updatePassword")

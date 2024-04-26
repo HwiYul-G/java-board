@@ -81,7 +81,7 @@ public class ArticleController {
             model.addAttribute("article", articleOptional.get());
             model.addAttribute("comments", comments);
             model.addAttribute("isFromInfo", isFromInfo);
-            return "/article/detail";
+            return "article/detail";
         }
         // TODO : 해당 id 가 없다는 안내가 필요할 것 같다.
         return "redirect:/articles";
@@ -114,7 +114,7 @@ public class ArticleController {
 
         model.addAttribute("articleDto", new ArticleDto(article.getTitle(), article.getContent(), article.getWriter()));
         model.addAttribute("isFromInfo", isFromInfo);
-        return "/article/update";
+        return "article/update";
     }
 
     @PutMapping("/articles/{id}")

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html">
-<head th:insert="~{/common/head.html::head}"></head>
+<head th:replace="~{common/head::head}?: ~{}"></head>
 <body>
-    <nav th:replace="~{common/nav.html::nav}"></nav>
+    <nav th:replace="~{common/nav::nav}?:~{}"></nav>
     <div class="container">
         <h1>이곳은 '게시판' 입니다.</h1>
         <table class="table">

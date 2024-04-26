@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="~{/common/head.html::head}"></head>
+<head th:replace="~{common/head::head}?: ~{}"></head>
 <body>
-<nav th:replace="~{common/nav.html::nav}"></nav>
+<nav th:replace="~{common/nav::nav}?: ~{}"></nav>
 <div class="container mb-3">
     <div class="">
         <img th:src="@{'data:image/jpeg;base64,'+${profileImage}}" alt="사용자 이미지" th:width="200" th:height="200">
@@ -16,8 +16,8 @@
     <div class="container mb-3">
         <a class="btn btn-primary mb-3" th:href="@{/user/profile}"> 프로필 수정 </a>
         <a class="btn btn-primary mb-3" th:href="@{/user/password}"> 비밀번호 변경 </a>
-        <div th:replace="~{user/_myArticles.html::_myArticles}"></div>
-        <div th:replace="~{user/_myComment.html::_myComment}"></div>
+        <div th:replace="~{user/_myArticles.html::_myArticles}?:~{}"></div>
+        <div th:replace="~{user/_myComment.html::_myComment}?:~{}"></div>
         <form class="mb-3" th:action="@{/user/{email}(email=${userInfo.getEmail()})}" th:method="delete">
             <button type="submit" class="btn btn-danger">탈퇴 하기</button>
         </form>
