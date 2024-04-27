@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/head::head}?: ~{}"></head>
+<body>
+    <div class="container mb-3">
+        <form th:action="@{/user/profile}" th:method="put" enctype="multipart/form-data">
+            <div class="">
+                <p>
+                    <label for="profileImg">프로필 이미지 : </label>
+                    <input type="file" accept="image/png, image/jpeg" th:name="profileImg" id="profileImg">
+                </p>
+                <p>
+                    <label for="nickname">닉네임 : </label>
+                    <input type="text" th:value="${userInfo.nickname}" th:name="nickname" id="nickname">
+                </p>
+            </div>
+            <button type="submit" class="btn btn-primary">적용</button>
+            <a class="btn btn-primary" th:href="@{/user/info}">취소</a>
+        </form>
+    </div>
+</body>
+</html>

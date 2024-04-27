@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/html">
+<head th:replace="~{common/head::head}?: ~{}"></head>
+<body>
+    <nav th:replace="~{common/nav::nav}?:~{}"></nav>
+    <div class="container">
+        <h1>이곳은 '게시판' 입니다.</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>제목</th>
+                    <th>글쓴이</th>
+                    <th>작성 날짜</th>
+                    <th>수정 날짜</th>
+                    <th>보기</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="article:${articles}">
+                    <td th:text="${article.id}"></td>
+                    <td th:text="${article.title}"></td>
+                    <td th:text="${article.writer}"></td>
+                    <td th:text="${#temporals.format(article.createdAt, 'yyyy-MM-dd, HH:mm')}"></td>
+                    <td th:text="${#temporals.format(article.updatedAt, 'yyyy-MM-dd, HH:mm')}"></td>
+                    <td><a th:href="@{/articles/detail/{id}(id=${article.id})}" class="btn btn-primary">보기</a></td>
+                </tr>
+            </tbody>
+        </table>
+        전체 게시글 : [[${totalArticles}]] - 페이지 [[${currentPage}]] of [[${totalPages}]]
+        <a th:if="${currentPage > 1}" th:href="@{articles?currentPage=1}">맨 앞으로</a>
+        <span th:unless="${currentPage > 1}"> 맨 앞으로 </span>
+
+        <a th:if="${currentPage > 1}" th:href="@{'articles?currentPage=' + ${currentPage - 1}}"> 이전 </a>
+        <span th:unless="${currentPage > 1}">이전</span>
+
+        <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                        <a th:if="${i != currentPage }" th:href="@{'articles?currentPage=' + ${i}}">[[${i}]]</a>
+                        <span th:unless="${i != currentPage}" >[[${i}]]</span>
+                        &nbsp;&nbsp;
+                    </span>
+
+        <a th:if="${currentPage < totalPages}" th:href="@{'articles?currentPage=' + ${currentPage + 1}}">다음</a>
+        <span th:unless="${currentPage < totalPages}">다음</span>
+        <a th:if="${currentPage < totalPages}" th:href="@{'articles?currentPage=' + ${totalPages}}">마지막</a>
+        <span th:unless="${currentPage < totalPages}">마지막</span>
+
+        <a href="/articles/new" class="btn btn-primary">새 게시글 작성</a>
+    </div>
+    <script src="webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

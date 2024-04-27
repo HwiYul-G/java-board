@@ -1,0 +1,49 @@
+<div th:fragment="_myArticles">
+    <h5>내 게시글</h5>
+    <div>
+        <table class="table">
+            <thead>
+                <th>ID</th>
+                <th>제목</th>
+                <th>생성 일자</th>
+                <th>수정 일자</th>
+                <th>게시글 보기</th>
+                <th>삭제</th>
+            </thead>
+            <tbody>
+                <tr th:each="myArticle : ${myArticles}">
+                    <td th:text="${myArticle.id}"></td>
+                    <td th:text="${myArticle.title}"></td>
+                    <td th:text="${#temporals.format(myArticle.createdAt, 'yyyy-MM-dd, HH:mm')}"></td>
+                    <td th:text="${#temporals.format(myArticle.createdAt, 'yyyy-MM-dd, HH:mm')}"></td>
+                    <td><a th:href ="@{'/articles/detail/' + ${myArticle.id} + '?info=true'}" class="btn btn-primary">보기</a></td>
+                    <td>
+                        <form th:action="@{'/articles/' + ${myArticle.id} + '?info=true'}" th:method="delete">
+                            <button type="submit" class="btn btn-danger">삭제</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    전체 게시글 : [[${myArticleTotalItems}]] - 페이지 : [[${myArticleCurrentPage}]] of [[${myArticleTotalPages}]]
+    &nbsp; - &nbsp;
+    <a th:if="${myArticleCurrentPage > 1}" th:href="@{info?articlePage=1 + '&commentPage=' + ${myCommentCurrentPage}}">맨 앞으로</a>
+    <span th:unless="${myArticleCurrentPage > 1}"> 맨 앞으로 </span>
+
+    <a th:if="${myArticleCurrentPage > 1}" th:href="@{'info?articlePage=' + ${myArticleCurrentPage - 1} + '&commentPage=' + ${myCommentCurrentPage}}"> 이전 </a>
+    <span th:unless="${myArticleCurrentPage > 1}">이전</span>
+
+    <span th:each="i : ${#numbers.sequence(1, myArticleTotalPages)}">
+                        <a th:if="${i != myArticleCurrentPage }" th:href="@{'info?articlePage=' + ${i} + '&commentPage=' + ${myCommentCurrentPage}}">[[${i}]]</a>
+                        <span th:unless="${i != myArticleCurrentPage}" >[[${i}]]</span>
+                        &nbsp;&nbsp;
+    </span>
+
+    <a th:if="${myArticleCurrentPage < myArticleTotalPages}" th:href="@{'info?articlePage=' + ${myArticleCurrentPage + 1} + '&commentPage=' + ${myCommentCurrentPage}}">다음</a>
+    <span th:unless="${myArticleCurrentPage < myArticleTotalPages}">다음</span>
+    <a th:if="${myArticleCurrentPage < myArticleTotalPages}" th:href="@{'info?articlePage=' + ${myArticleTotalPages} + '&commentPage=' + ${myCommentCurrentPage}}">마지막</a>
+    <span th:unless="${myArticleCurrentPage < myArticleTotalPages}">마지막</span>
+
+</div>
