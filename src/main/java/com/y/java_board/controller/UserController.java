@@ -70,6 +70,7 @@ public class UserController {
             commentsByPage(model, commentPage, userInfoSession.getNickname());
         } catch (IOException e) {
             model.put("profileImage", "");
+            System.err.println(e.getMessage());
         }
         return "user/info";
     }
