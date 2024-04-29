@@ -7,7 +7,6 @@ import com.y.java_board.domain.User;
 import com.y.java_board.dto.UserDto;
 import com.y.java_board.service.ArticleService;
 import com.y.java_board.service.CommentService;
-import com.y.java_board.service.ImageService;
 import com.y.java_board.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +28,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @SessionAttributes("userInfo")
 public class UserController {
-    private final String PROFILE_IMG_DIRECTORY = "src/main/resources/static/images/profile";
 
     private final UserService userService;
-    private final ImageService imageService;
     private final CommentService commentService;
     private final ArticleService articleService;
     private final HttpSession session;
@@ -51,7 +48,10 @@ public class UserController {
             User registered = userService.registerNewUserAccount(userDto);
             return "redirect:/";
         } catch (IllegalStateException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            redirectAttributes.addFlashAttribute("[IllegalStateException]", e.getMessage());
+            return "redirect:/user/register";
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("[IOException]", e.getMessage());
             return "redirect:/user/register";
         }
     }
@@ -62,16 +62,11 @@ public class UserController {
             @ModelAttribute("userInfo") UserInfoSession userInfoSession,
             @RequestParam(name = "commentPage", required = false, defaultValue = "1") int commentPage,
             @RequestParam(name = "articlePage", required = false, defaultValue = "1") int articlePage) {
-        try {
-            byte[] profileImageBytes = imageService.getImage(PROFILE_IMG_DIRECTORY, userInfoSession.getProfileImage()); // Unhandled exception : java.io.IOException
-            String profileImageBase64 = Base64.getEncoder().encodeToString(profileImageBytes);
-            model.put("profileImage", profileImageBase64);
-            articlesByPage(model, articlePage, userInfoSession.getNickname());
-            commentsByPage(model, commentPage, userInfoSession.getNickname());
-        } catch (IOException e) {
-            model.put("profileImage", "");
-            System.err.println(e.getMessage());
-        }
+
+        model.put("profileImage", Base64.getEncoder().encodeToString(userInfoSession.getProfileImage()));
+        articlesByPage(model, articlePage, userInfoSession.getNickname());
+        commentsByPage(model, commentPage, userInfoSession.getNickname());
+
         return "user/info";
     }
 
@@ -87,40 +82,26 @@ public class UserController {
             @ModelAttribute("userInfo") UserInfoSession userInfoSession) throws IOException {
 
         if (profileImage.isEmpty()) {
-            userService.updateUserProfile(User.builder()
-                    .nickname(nickname)
-                    .email(userInfoSession.getEmail())
-                    .build());
-        } else {
-            String previousProfileImagePath = userInfoSession.getProfileImage();
-            if (!previousProfileImagePath.isEmpty() && !previousProfileImagePath.equals("default_profile.png")) {
-                imageService.deleteImage(PROFILE_IMG_DIRECTORY, previousProfileImagePath);
-            }
-            String profileImageString = imageService.saveImageToStorage(PROFILE_IMG_DIRECTORY, profileImage);
-
-            userService.updateUserProfile(User.builder()
-                    .profileImage(profileImageString)
-                    .nickname(nickname)
-                    .email(userInfoSession.getEmail())
-                    .build());
-
-            userInfoSession.setProfileImage(profileImageString);
+            userService.updateUserProfile(userInfoSession.getEmail(), nickname, null);
+            userInfoSession.setNickname(nickname);
+            return "redirect:/user/info";
         }
-
+        try {
+            userService.updateUserProfile(userInfoSession.getEmail(), nickname, profileImage);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         userInfoSession.setNickname(nickname);
+        userInfoSession.setProfileImage(profileImage.getBytes());
         return "redirect:/user/info";
     }
 
 
     @DeleteMapping("/user/{email}")
     public String deleteUser(
-            @PathVariable("email") String email,
-            @ModelAttribute("userInfo") UserInfoSession userInfoSession
-    ) throws IOException {
-        String profileImg = userInfoSession.getProfileImage();
+            @PathVariable("email") String email
+    ) {
         userService.deleteUser(email);
-        if (!profileImg.equals("default_profile.png"))
-            imageService.deleteImage(PROFILE_IMG_DIRECTORY, profileImg);
         session.invalidate();
         return "redirect:/";
     }
