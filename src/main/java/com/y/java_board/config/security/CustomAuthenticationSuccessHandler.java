@@ -3,6 +3,7 @@ package com.y.java_board.config.security;
 import com.y.java_board.config.UserInfoSession;
 import com.y.java_board.domain.User;
 import com.y.java_board.repository.UserRepository;
+import com.y.java_board.util.ImageUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,10 +31,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             User user = userRepository.findByEmail(email).get();
             String nickname = user.getNickname();
             String name = user.getName();
-            String profileImg = "default_profile.png";
-            if (user.getProfileImage() != null && !user.getProfileImage().isEmpty()) {
-                profileImg = user.getProfileImage();
-            }
+            byte[] profileImg = ImageUtil.decompressImage(user.getProfileImage());
             session.setAttribute("userInfo", UserInfoSession.builder()
                     .nickname(nickname)
                     .email(email)
