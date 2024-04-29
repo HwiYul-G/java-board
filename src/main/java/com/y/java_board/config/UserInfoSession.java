@@ -12,6 +12,6 @@ import lombok.Setter;
 public class UserInfoSession {
     private String email;
     private String nickname;
-    private String profileImage;
+    private byte[] profileImage;
     private String name;
 }
