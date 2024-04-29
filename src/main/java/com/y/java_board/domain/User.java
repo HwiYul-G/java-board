@@ -20,7 +20,8 @@ public class User {
     private String password;
     private String name;
     private String nickname;
-    private String profileImage;
+    @Lob
+    private byte[] profileImage;
 
     public User(String email, String password, String name, String nickname) {
         this.email = email;
