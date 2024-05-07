@@ -47,11 +47,11 @@ public class UserController {
         try {
             User registered = userService.registerNewUserAccount(userDto);
             return "redirect:/";
-        } catch (IllegalStateException e) {
-            redirectAttributes.addFlashAttribute("[IllegalStateException]", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error1", e.getMessage());
             return "redirect:/user/register";
         } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("[IOException]", e.getMessage());
+            redirectAttributes.addFlashAttribute("error2", e.getMessage());
             return "redirect:/user/register";
         }
     }
@@ -159,9 +159,13 @@ public class UserController {
             redirectAttributes.addFlashAttribute("isWrong", true);
             return "redirect:/user/password";
         }
-        userService.changeUserPassword(user, password);
+        try {
+            userService.changeUserPassword(user, password);
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("validateFail", true);
+            return "redirect:/user/password";
+        }
         return "redirect:/user/info";
     }
-
 
 }
