@@ -31,6 +31,6 @@ class UserServiceTest {
         UserDto newUserDto = new UserDto("existing@google.com", "password", "testname1", "testnickname2");
 
         Assertions.assertThatThrownBy(() -> userService.registerNewUserAccount(newUserDto))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }

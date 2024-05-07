@@ -7,6 +7,7 @@ import com.y.java_board.repository.ArticleRepository;
 import com.y.java_board.repository.CommentRepository;
 import com.y.java_board.repository.UserRepository;
 import com.y.java_board.util.ImageUtil;
+import com.y.java_board.util.UserValidator;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -35,14 +36,16 @@ public class UserService {
 
     public User registerNewUserAccount(UserDto userDto) throws IllegalStateException, IOException {
         if (emailExists(userDto.email())) {
-            throw new IllegalStateException("중복 이메일");
+            throw new IllegalArgumentException("중복 이메일");
         }
         if (nicknameExists(userDto.nickname())) {
-            throw new IllegalStateException("중복 닉네임");
+            throw new IllegalArgumentException("중복 닉네임");
         }
+        UserValidator.validateEmail(userDto.email());
+        UserValidator.validatePassword(userDto.password());
+
         User user = userDto.toEntity();
         user.setPassword(passwordEncoder.encode(userDto.password()));
-
         user.setProfileImage(ImageUtil.compressImage(getDefaultProfileImageBytes()));
 
         return userRepository.save(user);
@@ -83,9 +86,11 @@ public class UserService {
         userRepository.deleteById(user.getId());
     }
 
-    public void changeUserPassword(User user, String password) {
+    public boolean changeUserPassword(User user, String password) {
+        UserValidator.validatePassword(password);
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
+        return true;
     }
 
     public boolean checkIfValidOldPassword(final User user, final String oldPassword) {
