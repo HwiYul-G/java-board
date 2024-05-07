@@ -38,6 +38,14 @@
 ### User
 - [x] id, nickname, email, password, name
 - [x] 등록하기(register)
+  - 등록할 때와 로그인할 때 unsafe password warning이 뜨는 문제가 있었다.
+  - 서버에서 프론트로 비밀번호를 보내는 문제가 있다는 이야기를 들어서 코드를 찾아봤다.
+  - 코드상에 문제가 없다는 것을 확인하고 나서, 테스트할 때 사용한 비밀번호가 1234여서 추측하기 쉬운 비밀번호여서 그랬다는 것을 깨달았다.
+  - 비밀번호 규칙을 5글자 이상 이 중 한 글자는 영어를 포함하도록 정했다.
+  - 기존에 UserDto에서 이메일 검증을 하고 있었기 때문에 이 곳으로 비밀번호 검증을 배치하고 Exception을 throw 시켰다.
+  - UserController에 userDto가 파라미터로 들어오기 때문에 함수 내부에 있는 try-catch에서 잡히지 않는 것을 발견했다.
+  - UserValidator를 별도로 만들어서 service 내에서 검증을 하도록 만들었다.
+  - catch에서 잡아서 보여줄 수 있게 되었다.
 - [] 수정하기(update)
   - [x] password수정
     - 데이터베이스에 저장된 그 비밀번호와 비교할 수 있어야 한다.
