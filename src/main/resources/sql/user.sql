@@ -1,4 +1,4 @@
-create user(
+create table user(
     id bigint not null,
     email varchar(45) not null primary key,
     name varchar(255),
