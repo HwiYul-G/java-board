@@ -5,11 +5,13 @@ import com.y.java_board.repository.impl.MemoryArticleRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@ActiveProfiles(value = "dev")
 class ArticleServiceTest {
 
     ArticleService articleService;

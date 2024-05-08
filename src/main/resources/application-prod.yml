@@ -1,0 +1,32 @@
+spring:
+  cloud:
+    azure:
+      keyvault:
+        secret:
+          property-sources[0]:
+            endpoint: ${AZURE_KEY_VAULT_ENDPOINT} # environment variable
+  datasource:
+    # Never put the db login credentials in your application code. Use placeholder like this.
+    url:  ${datasource-url} # URL of MySQL in Azure -> Secret from Azure Key Vault
+    username: ${datasource-username} # admin username of MySQL -> Secret from Azure Key Vault
+    password: ${datasource-password}  # password of admin of MySQL -> Secret from Azure Key Vault
+  jpa:
+    hibernate:
+      ddl-auto: none # Turn off the DDL auto generation.
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  servlet:
+    multipart:
+      max-file-size: 256MB
+      max-request-size: 256MB
+      enabled: true
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  web:
+    resources:
+      add-mappings: true
+  server:
+    port: 80
