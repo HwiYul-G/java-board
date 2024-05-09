@@ -22,5 +22,3 @@ spring:
   web:
     resources:
       add-mappings: true
-  server:
-    port: 80

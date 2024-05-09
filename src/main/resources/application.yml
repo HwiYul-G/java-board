@@ -1,3 +1,5 @@
 spring:
   profiles:
     active: dev # By default, the active profile is 'dev'. During production, it will be replaced to "prod" due to Azure's environment variables
+server:
+  port: 80
