@@ -10,6 +10,7 @@
 ### Article
 - [x] id, title, content, createdAt, updatedAt, writer
   - [x] comments
+  - [x] createdAt, updateAt같은 DateTime 가 TimeZone sync가 맞지 않는 문제 해결 (docker에서 timezone을 설정함)
 - [x] 작성하기(Create)
   - [x] writer의 값으로 User의 nickname을 넣는다.
 - [x] 개별 조회하기(retrieve)
@@ -24,7 +25,8 @@
   - [x] 관련된 comment를 먼저 지우고 현재 게시글이 지워지게 한다.
 - [x] comments 가져오기
 ### Comment
-- [x] id, content, createdAt, updatedAt, article(owner)
+- [x] id, content, createdAt, updatedAt, article(owner
+  - [x] createdAt, updateAt같은 DateTime 가 TimeZone sync가 맞지 않는 문제 해결 (docker에서 timezone을 설정함)
 - [x] 작성하기(create)
   - [x] writer의 값으로 User의 nickname을 넣는다.
 - [x] 삭제하기(delete)
@@ -79,3 +81,43 @@
     - [x] 게시글 삭제
 - [x] 내가 쓴 댓글 보기, paging 처리
   - [x] 댓글의 다른 페이지를 클릭해도 기존 게시글 페이지는 유지하기
+
+## Collation
+#### Collation이란?
+collation은 결과들이 정렬, 순서 되는 방식을 결정한다.<br>
+MySQL에서 collation은 아래와같이 분리된 collation set을 가진다.
+- DB 수준
+- table 수준
+- column 수준
+하나의 컬럼 안의 정보는 부정확하게 인코딩될 수 있다. 이는 컬럼 데이터가 잘못되어 보이는 문제가 있다.
+
+#### Checking the collation and character set
+1. DB Collation 확인
+  ```MySQL
+  use board;
+  SELECT @@character_set_database, @@collation_database;
+  ```
+  - utf8mb4와 utf8mb4_0900_ai_ci가 나왔다.
+2. TABLE COLLATION 확인
+  ```MySQL
+  SELECT TABLE_SCHEMA
+       , TABLE_NAME
+       , TABLE_COLLATION
+  FROM INFORMATION_SCHEMA.TABLES;
+  ```
+  board DB의 article, comment, user table은 utf8mb4_0900_ai_ci가 나왔다.
+3. COLUMN COLLATION 확인
+  ```MySQL
+  SELECT TABLE_NAME 
+    , COLUMN_NAME 
+    , COLLATION_NAME 
+  FROM INFORMATION_SCHEMA.COLUMNS;
+  ```
+ - article table의 id(binging), created_at, updated_at(DATETIME) : null
+ - article의 title, content, writer는 utf8mb4_0900_ai_ci
+ - comment의 id, created_at, updated_at, article_id 는 null
+ - comment의 writer, content는 utf8mb4_0900_ai_ci
+ - user의 id, profile_image 는 null
+ - user의 email, pw, name, nickname는 utf8mb4_0900_ai_ci
+#### 참고자료
+[How to Fix the Collation and Character set of a mysql db manually](https://confluence.atlassian.com/kb/how-to-fix-the-collation-and-character-set-of-a-mysql-database-manually-744326173.html)
