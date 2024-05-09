@@ -1,10 +1,9 @@
 FROM eclipse-temurin:17-jre as builder
+ENV TZ="Asia/Seoul"
 WORKDIR application
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
-
-ENV TZ=Asia/Seoul
 
 FROM eclipse-temurin:17-jre
 WORKDIR application
