@@ -12,7 +12,7 @@ import lombok.*;
 @Builder
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true, length = 45)
@@ -20,7 +20,7 @@ public class User {
     private String password;
     private String name;
     private String nickname;
-    @Lob
+    @Lob @Column(name = "profile_image")
     private byte[] profileImage;
 
     public User(String email, String password, String name, String nickname) {
