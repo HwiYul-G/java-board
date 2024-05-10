@@ -73,9 +73,15 @@
         </dependency>
 
         <!-- Azure -->
+        <!-- key vault 미사용 (과금 문제)-->
+<!--        <dependency>-->
+<!--            <groupId>com.azure.spring</groupId>-->
+<!--            <artifactId>spring-cloud-azure-starter-keyvault-secrets</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>com.azure.spring</groupId>
-            <artifactId>spring-cloud-azure-starter-keyvault-secrets</artifactId>
+            <artifactId>spring-cloud-azure-starter-storage-blob</artifactId>
         </dependency>
 
         <!-- Test -->
@@ -97,6 +103,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
         </dependency>
 
     </dependencies>
