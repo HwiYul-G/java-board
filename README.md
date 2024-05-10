@@ -1,9 +1,14 @@
 ## 사용 라이브러리
 - data-jpa : spring-data-jpa로 손쉽게 datsource에 접근 하기 위함
+- mysql-connector-j : production 환경을 위한 mysql 연결
+- h2 : development 환경을 위한 인메모리 DB
+- thymeleaf-extra-springsecurity-6 : 타임리프에서 security 사용을 위한것 sec:로 시작하는 구문
 - thymeleaf : 
 - bootstrap
 - devtools : 재시작 없이 하려고
-- mysql : 데이터베이스
+- azure-starter-keyvault-secret : azure에서 keyvault로 private를 두기 위함
+- azure-cloud-azure-starter-storage-blob : 이미지 저장을 위한 blob stroage 이용을 위함
+- commons-lang3 : 이미지 저장시 StringUtils를 사용하기 위함.
 - lombok : @Getter, @Setter 등 간편하게 하려고
 - mockito-core : unit test를 위해 mock 객체 생성용
 ## 기능 구현 목록
