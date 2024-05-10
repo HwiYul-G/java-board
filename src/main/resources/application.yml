@@ -1,5 +1,14 @@
 spring:
   profiles:
     active: dev # By default, the active profile is 'dev'. During production, it will be replaced to "prod" due to Azure's environment variables
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 256MB
+      max-request-size: 256MB
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 server:
   port: 80
