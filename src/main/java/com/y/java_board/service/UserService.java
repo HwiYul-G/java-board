@@ -1,38 +1,34 @@
 package com.y.java_board.service;
 
 
+import com.y.java_board.domain.Storage;
 import com.y.java_board.domain.User;
 import com.y.java_board.dto.UserDto;
 import com.y.java_board.repository.ArticleRepository;
 import com.y.java_board.repository.CommentRepository;
 import com.y.java_board.repository.UserRepository;
-import com.y.java_board.util.ImageUtil;
 import com.y.java_board.util.UserValidator;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import org.springframework.core.io.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
-@SessionAttributes("loggedInUser")
+@RequiredArgsConstructor
 public class UserService {
+    private static final String USER_PROFILE_CONTAINER = "profile";
 
     private final UserRepository userRepository;
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
     private final PasswordEncoder passwordEncoder;
     private final ResourceLoader resourceLoader;
+    private final BlobStorageService blobStorageService;
 
     public User registerNewUserAccount(UserDto userDto) throws IllegalStateException, IOException {
         if (emailExists(userDto.email())) {
@@ -46,19 +42,20 @@ public class UserService {
 
         User user = userDto.toEntity();
         user.setPassword(passwordEncoder.encode(userDto.password()));
-        user.setProfileImage(ImageUtil.compressImage(getDefaultProfileImageBytes()));
-
+        user.setProfileImageURL("default");
         return userRepository.save(user);
     }
 
-    public User updateUserProfile(String email, String nickname, MultipartFile file) throws IOException {
+    public User updateUserProfile(String email, String nickname, MultipartFile file) throws IOException, IllegalAccessException {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isPresent()) {
             String existingNickname = userOptional.get().getNickname();
             userOptional.get().setNickname(nickname);
-            if (file != null) {
-                byte[] newImage = ImageUtil.compressImage(file.getBytes());
-                userOptional.get().setProfileImage(newImage);
+            if (file != null) { // 파일이 존재하는 경우
+                Storage storage = new Storage(USER_PROFILE_CONTAINER, file.getOriginalFilename(), file.getInputStream());
+                blobStorageService.delete(userOptional.get().getProfileImageURL());
+                String uri = blobStorageService.writeFile(storage);
+                userOptional.get().setProfileImageURL(uri);
             }
 
             if (!existingNickname.equals(nickname)) {
@@ -76,6 +73,8 @@ public class UserService {
     public void deleteUser(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalStateException("[존재하지 않는 이메일] 해당 이메일의 사용자가 없어서 삭제할 수 없습니다."));
+        if(!user.getProfileImageURL().equals("default"))
+            blobStorageService.delete(user.getProfileImageURL());
         commentRepository.findByWriter(user.getNickname())
                 .forEach(comment -> commentRepository.deleteById(comment.getId()));
         articleRepository.findByWriter(user.getNickname())
@@ -110,14 +109,4 @@ public class UserService {
         return userRepository.findByNickname(nickname).isPresent();
     }
 
-    private Resource getDefaultProfileImage() {
-        String defaultProfileImageLocation = "classpath:/static/images/profile/default_profile.png";
-        return resourceLoader.getResource(defaultProfileImageLocation);
-    }
-
-    private byte[] getDefaultProfileImageBytes() throws IOException {
-        Resource defaultProfileImageResource = getDefaultProfileImage();
-        Path path = Paths.get(defaultProfileImageResource.getURI());
-        return Files.readAllBytes(path);
-    }
 }
