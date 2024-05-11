@@ -10,6 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "app_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +21,8 @@ public class User {
     private String password;
     private String name;
     private String nickname;
-    @Lob @Column(name = "profile_image")
-    private byte[] profileImage;
+    @Column(name = "profile_image_url")
+    private String profileImageURL;
 
     public User(String email, String password, String name, String nickname) {
         this.email = email;
