@@ -28,4 +28,14 @@ CREATE TABLE user (
   profile_image LONGBLOB
 );
 
-ALTER DATABASE board SET TIMEZONE = 'Korea Standard Time';
+ALTER TABLE user RENAME app_user;
+// ALTER TABLE app_user CHANGE COLUMN profile_image profile_image_url VARCHAR(255);
+DROP TABLE app_user;
+CREATE TABLE app_user (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(45) UNIQUE NOT NULL,
+  password VARCHAR(255),
+  name VARCHAR(255),
+  nickname VARCHAR(255),
+  profile_image_url VARCHAR(255)
+);
