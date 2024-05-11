@@ -10,6 +10,7 @@ import com.y.java_board.service.CommentService;
 import com.y.java_board.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @SessionAttributes("userInfo")
@@ -82,7 +84,11 @@ public class UserController {
             @ModelAttribute("userInfo") UserInfoSession userInfoSession) throws IOException {
 
         if (profileImage.isEmpty()) {
-            userService.updateUserProfile(userInfoSession.getEmail(), nickname, null);
+            try {
+                userService.updateUserProfile(userInfoSession.getEmail(), nickname, null);
+            } catch (IllegalAccessException e) {
+                log.error(e.getMessage());
+            }
             userInfoSession.setNickname(nickname);
             return "redirect:/user/info";
         }
