@@ -1,4 +1,10 @@
 spring:
+  cloud:
+    azure:
+      storage:
+        blob:
+          container-name: ${BLOB_STORAGE_CONTAINER_NAME}
+          connection-string: ${BLOB_STORAGE_CONNECTION_STRING}
   datasource:
     # Never put the db login credentials in your application code. Use placeholder like this.
     url:  ${DATASOURCE_URL} #
@@ -10,15 +16,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-  servlet:
-    multipart:
-      max-file-size: 256MB
-      max-request-size: 256MB
-      enabled: true
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
   web:
     resources:
       add-mappings: true

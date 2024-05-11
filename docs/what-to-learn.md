@@ -204,3 +204,44 @@ public class FooController{
 ---
 - 인프런의 김영한 선생님의 "스프링 입문 - 코드로 배우는 스프링 부트, 웹 MVC, DB 접근 기술"
 - 길벗 출판사의 코딩 자율학습 스프링 부트3 자바 백엔드 개발 입문 도서 : https://github.com/gilbutITbook/080354
+
+
+## Collation
+#### Collation이란?
+collation은 결과들이 정렬, 순서 되는 방식을 결정한다.<br>
+MySQL에서 collation은 아래와같이 분리된 collation set을 가진다.
+- DB 수준
+- table 수준
+- column 수준
+  하나의 컬럼 안의 정보는 부정확하게 인코딩될 수 있다. 이는 컬럼 데이터가 잘못되어 보이는 문제가 있다.
+
+#### Checking the collation and character set
+1. DB Collation 확인
+  ```MySQL
+  use board;
+  SELECT @@character_set_database, @@collation_database;
+  ```
+- utf8mb4와 utf8mb4_0900_ai_ci가 나왔다.
+2. TABLE COLLATION 확인
+  ```MySQL
+  SELECT TABLE_SCHEMA
+       , TABLE_NAME
+       , TABLE_COLLATION
+  FROM INFORMATION_SCHEMA.TABLES;
+  ```
+board DB의 article, comment, user table은 utf8mb4_0900_ai_ci가 나왔다.
+3. COLUMN COLLATION 확인
+  ```MySQL
+  SELECT TABLE_NAME 
+    , COLUMN_NAME 
+    , COLLATION_NAME 
+  FROM INFORMATION_SCHEMA.COLUMNS;
+  ```
+- article table의 id(binging), created_at, updated_at(DATETIME) : null
+- article의 title, content, writer는 utf8mb4_0900_ai_ci
+- comment의 id, created_at, updated_at, article_id 는 null
+- comment의 writer, content는 utf8mb4_0900_ai_ci
+- user의 id, profile_image 는 null
+- user의 email, pw, name, nickname는 utf8mb4_0900_ai_ci
+#### 참고자료
+[How to Fix the Collation and Character set of a mysql db manually](https://confluence.atlassian.com/kb/how-to-fix-the-collation-and-character-set-of-a-mysql-database-manually-744326173.html)

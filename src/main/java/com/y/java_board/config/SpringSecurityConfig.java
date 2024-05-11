@@ -4,8 +4,6 @@ import com.y.java_board.config.security.CustomAuthenticationSuccessHandler;
 import com.y.java_board.config.security.CustomLogoutSuccessHandler;
 import com.y.java_board.config.security.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,8 +28,6 @@ public class SpringSecurityConfig {
     private final CustomUserDetailsService userDetailsService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
-
-    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Bean
     public InMemoryUserDetailsManager userDetailsManager() {

@@ -1,15 +1,21 @@
 ## 사용 라이브러리
 - data-jpa : spring-data-jpa로 손쉽게 datsource에 접근 하기 위함
+- mysql-connector-j : production 환경을 위한 mysql 연결
+- h2 : development 환경을 위한 인메모리 DB
+- thymeleaf-extra-springsecurity-6 : 타임리프에서 security 사용을 위한것 sec:로 시작하는 구문
 - thymeleaf : 
 - bootstrap
 - devtools : 재시작 없이 하려고
-- mysql : 데이터베이스
+- azure-starter-keyvault-secret : azure에서 keyvault로 private를 두기 위함
+- azure-cloud-azure-starter-storage-blob : 이미지 저장을 위한 blob stroage 이용을 위함
+- commons-lang3 : 이미지 저장시 StringUtils를 사용하기 위함.
 - lombok : @Getter, @Setter 등 간편하게 하려고
 - mockito-core : unit test를 위해 mock 객체 생성용
 ## 기능 구현 목록
 ### Article
 - [x] id, title, content, createdAt, updatedAt, writer
   - [x] comments
+  - [x] createdAt, updateAt같은 DateTime 가 TimeZone sync가 맞지 않는 문제 해결 (docker에서 timezone을 설정함)
 - [x] 작성하기(Create)
   - [x] writer의 값으로 User의 nickname을 넣는다.
 - [x] 개별 조회하기(retrieve)
@@ -24,7 +30,8 @@
   - [x] 관련된 comment를 먼저 지우고 현재 게시글이 지워지게 한다.
 - [x] comments 가져오기
 ### Comment
-- [x] id, content, createdAt, updatedAt, article(owner)
+- [x] id, content, createdAt, updatedAt, article(owner
+  - [x] createdAt, updateAt같은 DateTime 가 TimeZone sync가 맞지 않는 문제 해결 (docker에서 timezone을 설정함)
 - [x] 작성하기(create)
   - [x] writer의 값으로 User의 nickname을 넣는다.
 - [x] 삭제하기(delete)
@@ -59,6 +66,7 @@
     - 이 경로가 jar 파일 내부로 고정되어 있기 때문에 Azure에선 문제가 발생했다.
     - 이를 해결하기 위해, 데이터베이스를 인메모리 DB인 H2로 변경해서 H2에 byte[]로 이미지를 저장하게 했다.
     - 추후 Azure에 있는 다른 데이터베이스를 이용하고 파일스토리지를 이용하면서 다시 수정해야할 것 같다.
+    - [x] 데이터베이스에는 Blob의 path를 저장하고, blob storage를 저장함. 로컬에서 테스트할 때는 azurite를 사용해서 함.
   - [x] nickname 수정
     - 닉네임 수정시 현재 사용자가 만든 article과 작성한 comment에 대한 닉네임을 모두 변경
     - 세션에 등록된 닉네임도 변경
