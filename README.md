@@ -2,17 +2,13 @@
 
 ### 실행
 #### 스크린샷
-| 홈 | 등록 | 로그인|
-|:--:|:--:|:--:|
-|<img src="./docs/resources/running/1_home.png" width="400" height="200"/>|<img src="./docs/resources/running/2_register.png" width="400" height="200"/>|<img src="./docs/resources/running/3_login.png" width="400" height="200"/>|
+| 홈 | 등록 |                     게시물                      |
+|:--:|:--:|:--------------------------------------------:|
+|<img src="./docs/resources/running/1_home.png" width="400" height="200"/>|<img src="./docs/resources/running/2_register.png" width="400" height="200"/>| <img src="docs/resources/running/4_articles.png" width="400" height="200"/> |
 
-| 게시물 | 게시글 작성 | 게시글 보기 |
-|:--:|:--:|:--:|
-|<img src="./docs/resources/running/4_articles.png" width="400" height="200"/> |<img src="./docs/resources/running/5_write_article.png" width="400" height="200"/> | <img src="./docs/resources/running/6_see_article.png" width="400" height="200"/>|
-
-| 정보 | 비밀번호 변경 | 닉네임 및 이미지 변경 |
-|:--:|:--:|:--:|
-|<img src="./docs/resources/running/7_info.png" width="400" height="200"/> | <img src="./docs/resources/running/8_changePw.png" width="400" height="200"/>| <img src="./docs/resources/running/9_changenicknameandImage.png" width="400" height="200"/>|
+| 게시물 보기 |                                 사용자 정보                                 | 
+|:------:|:----------------------------------------------------------------------:|
+| <img src="docs/resources/running/6_see_article.png" width="400" height="200"/>  | <img src="docs/resources/running/7_info.png" width="400" height="200"/> |
 
 #### 동영상
 <img src="./docs/resources/running/java-board-executable-video.gif" />
