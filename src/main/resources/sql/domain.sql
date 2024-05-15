@@ -1,3 +1,4 @@
+CREATE DATABASE board;
 USE board;
 
 CREATE TABLE article(
@@ -19,13 +20,13 @@ CREATE TABLE comment(
     FOREIGN KEY (article_id) REFERENCES Article(id)
 );
 
-CREATE TABLE user (
+CREATE TABLE app_user (
   id BIGINT AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(45) UNIQUE NOT NULL,
   password VARCHAR(255),
   name VARCHAR(255),
   nickname VARCHAR(255),
-  profile_image LONGBLOB
+  profile_image_url VARCHAR(255)
 );
 
 ALTER DATABASE board SET TIMEZONE = 'Korea Standard Time';
