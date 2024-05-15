@@ -14,7 +14,7 @@
 <img src="./docs/resources/running/java-board-executable-video.gif" />
 
 ### 목표
-- [x] 타임리프와 자바 스프링 부트 이용해 게시판 프로젝트 만들기
+- [x] 타임리프와 자바 스프링 부트 이용해 게시판 프로젝트 만들어 Azure에 CICD로 배포하기기
 - [x] 1차 : H2 인메모리 DB를 이용해 게시글 CRUD 하기
 - [x] 2차 : mysql로 변경(local) > 클라우드에 올리면서 잠시 다시 H2로 변경
 - [x] 3차 : 댓글 기능 추가 > 댓글 삭제 정책 등을 고려하게 됨.
@@ -140,4 +140,4 @@
    - blob storage에서 [보안+네트워킹 > Front Door 및CDN ]으로 가 Azure Front Door 서비스 유형으로 CDN을 만든다.
    - `java-board-webapp`에서 `BLOB_STORAGE_CONNECTION_STRING` 환경 변수를 변경한다.
      - `BLOB_STORAGE_CONNECTION_STRING` : `DefaultEndpointsProtocol=https;AccountName=<계정이름>;AccountKey=<키>;BlobEndpoint=<cdn엔드포인트>`
-9. md 파일의 띄어쓰기 등을 약간 수정하고 `main branch`으로 `push`를 넣으면 github action의 CICD를 통해서 자동으로 배포 됩니다.
+9. md 파일의 띄어쓰기 등을 약간 수정하고, tag로 `v*.*.*` 패턴을 붙여서 push하면 CICD로 자동 배포가 완료됩니다.
