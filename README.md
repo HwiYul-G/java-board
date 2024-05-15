@@ -1,6 +1,40 @@
+## 게시판 프로젝트
+
+### 실행
+#### 스크린샷
+<img src="./docs/resources/running/1_home.png" width="200" height="100"/>
+<img src="./docs/resources/running/2_register.png" width="200" height="100"/>
+<img src="./docs/resources/running/3_login.png" width="200" height="100"/>
+<img src="./docs/resources/running/4_articles.png" width="200" height="100"/>
+<img src="./docs/resources/running/5_write_article.png" width="200" height="100"/>
+<img src="./docs/resources/running/6_see_article.png" width="200" height="100"/>
+<img src="./docs/resources/running/7_info.png" width="200" height="100"/>
+<img src="./docs/resources/running/8_changePw.png" width="200" height="100"/>
+<img src="./docs/resources/running/9_changenicknameandImage.png" width="200" height="100"/>
+
+#### 동영상
+<img src="./docs/resources/running/java-board-executable-video.gif" />
+
+### 목표
+- [x] 타임리프와 자바 스프링 부트 이용해 게시판 프로젝트 만들기
+- [x] 1차 : H2 인메모리 DB를 이용해 게시글 CRUD 하기
+- [x] 2차 : mysql로 변경(local) > 클라우드에 올리면서 잠시 다시 H2로 변경
+- [x] 3차 : 댓글 기능 추가 > 댓글 삭제 정책 등을 고려하게 됨.
+- [x] 4차 : spring security로 로그인 기능
+- [x] 5차 : 로그인 한 사용자 본인의 게시글에만 수정, 삭제를 할 수 있게 함 등 + session 처리
+- [x] 6차 : 사용자 정보 수정(이름, 이미지) 등 작성 > 이미지에 대해 처리하면서 file Storage를 생각하게 됨
+- [x] 7차, 8차 : CICD로 cloud 로 자동 배포되게 변경 > H2로 임시로 변경 (이미지 저장도 DB에 Lob으로)
+- [x] 9차 : Password warning 문제로 회원 가입시 최소한의 비밀번호 복잡도 요구
+- [X] 10차 : H2 에서 Azure MySQL DB를 사용하게 변경 (이 부분을 사용할 때는 SQL 문을 바꿔줘야 함!)
+- [X] 11차 : DB에는 image의 경로를 넣고 Blob Storage에 이미지 저장
+
+### 기능 구현 목록
+- [기능 구현 목록](docs/Feature-Implementation-List.md)
+
 ## Local 환경에서 테스트 수행하기
-- dev 환경에서는 H2 인메모리 데이터베이스를 사용하고, ddl-auto가 update입니다.
-- 따라서 별도의 데이터베이스와 테이블을 준비할 필요 없습니다.
+> dev 환경에서는 H2 인메모리 데이터베이스를 사용하고, ddl-auto가 update입니다.
+> 따라서 별도의 데이터베이스와 테이블을 준비할 필요 없습니다.
+
 #### Azurite 준비하기
 <details>
   <summary> NPM이 설치되지 않은 경우</summary>
@@ -105,20 +139,3 @@
    - `java-board-webapp`에서 `BLOB_STORAGE_CONNECTION_STRING` 환경 변수를 변경한다.
      - `BLOB_STORAGE_CONNECTION_STRING` : `DefaultEndpointsProtocol=https;AccountName=<계정이름>;AccountKey=<키>;BlobEndpoint=<cdn엔드포인트>`
 9. md 파일의 띄어쓰기 등을 약간 수정하고 `main branch`으로 `push`를 넣으면 github action의 CICD를 통해서 자동으로 배포 됩니다.
-
-## 게시판 프로젝트
-#### 목표
-- [x] 타임리프와 자바 스프링 부트 이용해 게시판 프로젝트 만들기
-- [x] 1차 : H2 인메모리 DB를 이용해 게시글 CRUD 하기
-- [x] 2차 : mysql로 변경(local) > 클라우드에 올리면서 잠시 다시 H2로 변경
-- [x] 3차 : 댓글 기능 추가 > 댓글 삭제 정책 등을 고려하게 됨.
-- [x] 4차 : spring security로 로그인 기능
-- [x] 5차 : 로그인 한 사용자 본인의 게시글에만 수정, 삭제를 할 수 있게 함 등 + session 처리
-- [x] 6차 : 사용자 정보 수정(이름, 이미지) 등 작성 > 이미지에 대해 처리하면서 file Storage를 생각하게 됨
-- [x] 7차, 8차 : CICD로 cloud 로 자동 배포되게 변경 > H2로 임시로 변경 (이미지 저장도 DB에 Lob으로)
-- [x] 9차 : Password warning 문제로 회원 가입시 최소한의 비밀번호 복잡도 요구
-- [X] 10차 : H2 에서 Azure MySQL DB를 사용하게 변경 (이 부분을 사용할 때는 SQL 문을 바꿔줘야 함!)
-- [X] 11차 : DB에는 image의 경로를 넣고 Blob Storage에 이미지 저장
-
-#### 기능 구현 목록
-- [기능 구현 목록](docs/Feature-Implementation-List.md)
