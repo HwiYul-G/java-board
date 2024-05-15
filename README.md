@@ -71,10 +71,14 @@
 ## Azure Cloud 환경에서 수행하기
 > Web App, DataBase, Blob Stroage, CDN을 사용합니다.
 
+#### Azure Portal에서
 리소스 그룹명, 데이터베이스명, 웹앱 명은 전부 변경해도 됩니다. 환경 변수 이름은 변경하면 안됩니다!
 1. Azure에서 리소스 그룹 `java-board`로 생성한다. 
 2. 리소스 그룹에 Web App추가 `java-board-webapp` 생성 - F1 요금제 이용
    - 환경변수 추가 : `SPRING_PROFILES_ACTIVE`의 값을 `prod`로 추가한다.
+   - GitHub에서 레포지토리의 [Settings > Secrets and variables > Actions]에서 Repository secrets를 추가한다.
+     - `AZURE_WEBAPP_PUBLISH_PROFILE` : `그 값`
+     - `그 값`은 web app의 overview에서 download publish profile을 통해서 얻을 수 있다.
 3. 리소스 그룹에 Azure Database for MySQL Flexible Server를 추가한다. `java-board-database` 생성한다. - 요금제 가장 저렴한 것 이용.
    - 이때 관리자 이름과 비밀번호를 기억한다. 
 4. 데이터베이스 연결을 위해 [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)를 로컬에 설치한다.
