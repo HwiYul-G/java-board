@@ -2,9 +2,9 @@
 
 ### 실행
 #### 스크린샷
-| 홈 | 등록 |                     게시물                      |
-|:--:|:--:|:--------------------------------------------:|
-|<img src="./docs/resources/running/1_home.png" width="400" height="200"/>|<img src="./docs/resources/running/2_register.png" width="400" height="200"/>| <img src="docs/resources/running/4_articles.png" width="400" height="200"/> |
+| 홈 |                     게시물                      |
+|:--:|:--:|
+|<img src="./docs/resources/running/1_home.png" width="400" height="200"/>| <img src="docs/resources/running/4_articles.png" width="400" height="200"/> |
 
 | 게시물 보기 |                                 사용자 정보                                 | 
 |:------:|:----------------------------------------------------------------------:|
