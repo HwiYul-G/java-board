@@ -87,43 +87,43 @@
    - hostname 필드에 Azure Database for MySQL에 있는 '서버 이름'을 추가한다.
    - 사용자 이름과 비밀번호에 azure database 추가할 때 작성한 것을 연결한다.
    - 테스트 커넥션 버튼을 클릭해서 성공하면 OK를 누른다.
-    <details>
-      <summary>아래의 데이터베이스 문으로 테이블을 생성한다. </summary>
-  
-        CREATE DATABASE board;
-        USE board;
-        
-        CREATE TABLE article(
-        id BIGINT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(255),
-        content TEXT,
-        writer VARCHAR(255),
-        created_at DATETIME,
-        updated_at DATETIME
-        );
-        
-        CREATE TABLE comment(
-        id BIGINT AUTO_INCREMENT PRIMARY KEY,
-        writer VARCHAR(255),
-        content TEXT,
-        created_at DATETIME,
-        updated_at DATETIME,
-        article_id BIGINT,
-        FOREIGN KEY (article_id) REFERENCES Article(id)
-        );
-        
-        CREATE TABLE app_user (
-        id BIGINT AUTO_INCREMENT PRIMARY KEY,
-        email VARCHAR(45) UNIQUE NOT NULL,
-        password VARCHAR(255),
-        name VARCHAR(255),
-        nickname VARCHAR(255),
-        profile_image_url VARCHAR(255)
-        );
-        
-        ALTER DATABASE board SET TIMEZONE = 'Korea Standard Time';
-  
-    </details>
+      <details>
+        <summary>아래의 데이터베이스 문으로 테이블을 생성한다. </summary>
+    
+          CREATE DATABASE board;
+          USE board;
+          
+          CREATE TABLE article(
+          id BIGINT AUTO_INCREMENT PRIMARY KEY,
+          title VARCHAR(255),
+          content TEXT,
+          writer VARCHAR(255),
+          created_at DATETIME,
+          updated_at DATETIME
+          );
+          
+          CREATE TABLE comment(
+          id BIGINT AUTO_INCREMENT PRIMARY KEY,
+          writer VARCHAR(255),
+          content TEXT,
+          created_at DATETIME,
+          updated_at DATETIME,
+          article_id BIGINT,
+          FOREIGN KEY (article_id) REFERENCES Article(id)
+          );
+          
+          CREATE TABLE app_user (
+          id BIGINT AUTO_INCREMENT PRIMARY KEY,
+          email VARCHAR(45) UNIQUE NOT NULL,
+          password VARCHAR(255),
+          name VARCHAR(255),
+          nickname VARCHAR(255),
+          profile_image_url VARCHAR(255)
+          );
+          
+          ALTER DATABASE board SET TIMEZONE = 'Korea Standard Time';
+    
+      </details>
 
 5. Azure Portal에서 `java-board-webapp`에서 데이터베이스 관련 환경 변수를 등록한다. 
    - 요금 문제로 인해 환경 변수를 사용했지만, key-vault 를 사용하는 것이 권장된다. (초반에 사용했다가 변경)
