@@ -76,7 +76,7 @@
 1. Azure에서 리소스 그룹 `java-board`로 생성한다. 
 2. 리소스 그룹에 Web App추가 `java-board-webapp` 생성 - F1 요금제 이용
    - 환경변수 추가 : `SPRING_PROFILES_ACTIVE`의 값을 `prod`로 추가한다.
-   - GitHub에서 레포지토리의 [Settings > Secrets and variables > Actions]에서 Repository secrets를 추가한다.
+   - Repository secrets를 추가한다.
      - `AZURE_WEBAPP_PUBLISH_PROFILE` : `그 값`
      - `그 값`은 web app의 overview에서 download publish profile을 통해서 얻을 수 있다.
 3. 리소스 그룹에 Azure Database for MySQL Flexible Server를 추가한다. `java-board-database` 생성한다. - 요금제 가장 저렴한 것 이용.
