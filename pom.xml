@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.y</groupId>
-    <artifactId>java_board</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>java-board</artifactId>
+    <version>0.0.1</version>
     <name>java_board</name>
     <description>java_board</description>
     <properties>
