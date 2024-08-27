@@ -14,7 +14,7 @@
 <img src="./docs/resources/running/java-board-executable-video.gif" />
 
 ### 목표
-- [x] 타임리프와 자바 스프링 부트 이용해 게시판 프로젝트 만들기
+- [x] 타임리프와 자바 스프링 부트 이용해 게시판 프로젝트 만들어 Azure에 CICD로 배포하기기
 - [x] 1차 : H2 인메모리 DB를 이용해 게시글 CRUD 하기
 - [x] 2차 : mysql로 변경(local) > 클라우드에 올리면서 잠시 다시 H2로 변경
 - [x] 3차 : 댓글 기능 추가 > 댓글 삭제 정책 등을 고려하게 됨.
@@ -76,7 +76,7 @@
 1. Azure에서 리소스 그룹 `java-board`로 생성한다. 
 2. 리소스 그룹에 Web App추가 `java-board-webapp` 생성 - F1 요금제 이용
    - 환경변수 추가 : `SPRING_PROFILES_ACTIVE`의 값을 `prod`로 추가한다.
-   - GitHub에서 레포지토리의 [Settings > Secrets and variables > Actions]에서 Repository secrets를 추가한다.
+   - Repository secrets를 추가한다.
      - `AZURE_WEBAPP_PUBLISH_PROFILE` : `그 값`
      - `그 값`은 web app의 overview에서 download publish profile을 통해서 얻을 수 있다.
 3. 리소스 그룹에 Azure Database for MySQL Flexible Server를 추가한다. `java-board-database` 생성한다. - 요금제 가장 저렴한 것 이용.
@@ -87,43 +87,43 @@
    - hostname 필드에 Azure Database for MySQL에 있는 '서버 이름'을 추가한다.
    - 사용자 이름과 비밀번호에 azure database 추가할 때 작성한 것을 연결한다.
    - 테스트 커넥션 버튼을 클릭해서 성공하면 OK를 누른다.
-    <details>
-      <summary>아래의 데이터베이스 문으로 테이블을 생성한다. </summary>
-  
-        CREATE DATABASE board;
-        USE board;
-        
-        CREATE TABLE article(
-        id BIGINT AUTO_INCREMENT PRIMARY KEY,
-        title VARCHAR(255),
-        content TEXT,
-        writer VARCHAR(255),
-        created_at DATETIME,
-        updated_at DATETIME
-        );
-        
-        CREATE TABLE comment(
-        id BIGINT AUTO_INCREMENT PRIMARY KEY,
-        writer VARCHAR(255),
-        content TEXT,
-        created_at DATETIME,
-        updated_at DATETIME,
-        article_id BIGINT,
-        FOREIGN KEY (article_id) REFERENCES Article(id)
-        );
-        
-        CREATE TABLE app_user (
-        id BIGINT AUTO_INCREMENT PRIMARY KEY,
-        email VARCHAR(45) UNIQUE NOT NULL,
-        password VARCHAR(255),
-        name VARCHAR(255),
-        nickname VARCHAR(255),
-        profile_image_url VARCHAR(255)
-        );
-        
-        ALTER DATABASE board SET TIMEZONE = 'Korea Standard Time';
-  
-    </details>
+      <details>
+        <summary>아래의 데이터베이스 문으로 테이블을 생성한다. </summary>
+    
+          CREATE DATABASE board;
+          USE board;
+          
+          CREATE TABLE article(
+          id BIGINT AUTO_INCREMENT PRIMARY KEY,
+          title VARCHAR(255),
+          content TEXT,
+          writer VARCHAR(255),
+          created_at DATETIME,
+          updated_at DATETIME
+          );
+          
+          CREATE TABLE comment(
+          id BIGINT AUTO_INCREMENT PRIMARY KEY,
+          writer VARCHAR(255),
+          content TEXT,
+          created_at DATETIME,
+          updated_at DATETIME,
+          article_id BIGINT,
+          FOREIGN KEY (article_id) REFERENCES Article(id)
+          );
+          
+          CREATE TABLE app_user (
+          id BIGINT AUTO_INCREMENT PRIMARY KEY,
+          email VARCHAR(45) UNIQUE NOT NULL,
+          password VARCHAR(255),
+          name VARCHAR(255),
+          nickname VARCHAR(255),
+          profile_image_url VARCHAR(255)
+          );
+          
+          ALTER DATABASE board SET TIMEZONE = 'Korea Standard Time';
+    
+      </details>
 
 5. Azure Portal에서 `java-board-webapp`에서 데이터베이스 관련 환경 변수를 등록한다. 
    - 요금 문제로 인해 환경 변수를 사용했지만, key-vault 를 사용하는 것이 권장된다. (초반에 사용했다가 변경)
@@ -140,7 +140,7 @@
    - blob storage에서 [보안+네트워킹 > Front Door 및CDN ]으로 가 Azure Front Door 서비스 유형으로 CDN을 만든다.
    - `java-board-webapp`에서 `BLOB_STORAGE_CONNECTION_STRING` 환경 변수를 변경한다.
      - `BLOB_STORAGE_CONNECTION_STRING` : `DefaultEndpointsProtocol=https;AccountName=<계정이름>;AccountKey=<키>;BlobEndpoint=<cdn엔드포인트>`
-9. md 파일의 띄어쓰기 등을 약간 수정하고 `main branch`으로 `push`를 넣으면 github action의 CICD를 통해서 자동으로 배포 됩니다.
+9. md 파일의 띄어쓰기 등을 약간 수정하고, tag로 `v*.*.*` 패턴을 붙여서 push하면 CICD로 자동 배포가 완료됩니다.
 
 ---
 이 문서와 코드는 KSY(HwiYul-G)에 의해 작성되었습니다. 클론 시 꼭 표기 부탁드립니다.
