@@ -141,3 +141,7 @@
    - `java-board-webapp`에서 `BLOB_STORAGE_CONNECTION_STRING` 환경 변수를 변경한다.
      - `BLOB_STORAGE_CONNECTION_STRING` : `DefaultEndpointsProtocol=https;AccountName=<계정이름>;AccountKey=<키>;BlobEndpoint=<cdn엔드포인트>`
 9. md 파일의 띄어쓰기 등을 약간 수정하고 `main branch`으로 `push`를 넣으면 github action의 CICD를 통해서 자동으로 배포 됩니다.
+
+---
+이 문서와 코드는 KSY(HwiYul-G)에 의해 작성되었습니다. 클론 시 꼭 표기 부탁드립니다.
+This document and code were written by KSY(HwiYul-G). Please be sure to indicate this when cloning
